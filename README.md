@@ -1,0 +1,3 @@
+# MangaBunka
+
+Coming soon...
