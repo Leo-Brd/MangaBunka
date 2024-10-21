@@ -1,0 +1,7 @@
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    border: 2px black solid;
+}
