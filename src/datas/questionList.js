@@ -1,7 +1,7 @@
 
 export const questionList = [
 	{
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
+		question: 'Quel mangaka est à l\'origine de My Hero Academia ?',
         answer: 'Kohei Horikoshi',
         badAnswer1: 'Eiichiro Oda',
         badAnswer2: 'Kirei Hokashi',
@@ -105,68 +105,68 @@ export const questionList = [
         level: 5
 	},
     {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
+		question: 'Quel mangaka est à l\'origine de Dragon Ball ?',
+        answer: 'Akira Toriyama',
         badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
+        badAnswer2: 'Junji Ito',
+        badAnswer3: 'Masashi Kishimoto',
+        level: 1
+	},
+    {
+		question: 'Combien y a-t-il de tomes de Naruto ?',
+        answer: '72',
+        badAnswer1: '70',
+        badAnswer2: '71',
+        badAnswer3: '73',
+        level: 4
+	},
+    {
+		question: 'Quel est le fruit préféré de Ryuk dans DeathNote ?',
+        answer: 'La pomme',
+        badAnswer1: 'La poire',
+        badAnswer2: 'La banane',
+        badAnswer3: 'Le kiwi',
+        level: 2
+	},
+    {
+		question: 'Combien d\'enfants a Big mom dans One piece ?',
+        answer: '85',
+        badAnswer1: '83',
+        badAnswer2: '78',
+        badAnswer3: '92',
+        level: 4
+	},
+    {
+		question: 'Quel clan manipule le Reichi pour fabriquer des arcs dans Bleach ?',
+        answer: 'Les quincy',
+        badAnswer1: 'Les Yhwach',
+        badAnswer2: 'Les shinigami',
+        badAnswer3: 'Les Vandereich',
         level: 3
 	},
     {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
+		question: 'Quelle est l\'arme de prédilection de Joseph Joestar dans Jojo ?',
+        answer: 'La thompson',
+        badAnswer1: 'La famas',
+        badAnswer2: 'L\'ak-47',
+        badAnswer3: 'Le bouclier',
         level: 3
 	},
     {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
+		question: 'Quelle est la particularité du Blue Lock ?',
+        answer: 'Il ne forme que des attaquants',
+        badAnswer1: 'Il n\'y a pas de gardien',
+        badAnswer2: 'Il n\'y a pas d\'arbitre',
+        badAnswer3: 'Il n\'y a qu\'une cage',
+        level: 2
 	},
     {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
-	},
-    {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
-	},
-    {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
-	},
-    {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
-	},
-    {
-		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',
-        answer: 'Kohei Horikoshi',
-        badAnswer1: 'Eiichiro Oda',
-        badAnswer2: 'Kirei Hokashi',
-        badAnswer3: 'Mina Kagami',
-        level: 3
+		question: 'Quel groupe de 5 basketteurs est considéré comme invincible dans Kuroko\'s Basket ?',
+        answer: 'La génération miracle',
+        badAnswer1: 'La génération prophète',
+        badAnswer2: 'La génération divine',
+        badAnswer3: 'La génération sanglante',
+        level: 2
 	},
     {
 		question: 'Quel mangaka est à l\'origine de "My Hero Academia" ?',

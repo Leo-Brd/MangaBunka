@@ -2,6 +2,6 @@
 #header {
     display: flex;
     flex-direction: row;
-    align-content: center;
+    align-items: center;
     border: 2px black solid;
 }
