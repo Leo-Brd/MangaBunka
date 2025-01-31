@@ -20,9 +20,9 @@ export default function Home() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
       >
-        <Link to="/quiz">
+        <Link to="/quiz/selection">
           <button>
-            Commencer le quiz !
+            Commencer à jouer !
           </button>
         </Link>
       </motion.div>

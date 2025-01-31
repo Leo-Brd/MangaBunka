@@ -9,7 +9,7 @@ header {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        width: 50%;
+        width: 20%;
 
         img {
             height: 100px;
@@ -23,16 +23,38 @@ header {
         }
     }
 
+    .Header__kanas {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        width: 60%;
+
+        p {
+            font-size: 30px;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
     .Header__links {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        width: 50%;
+        width: 20%;
 
         a {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 500;
-            margin-right: 30px;
+            margin-right: 40px;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
 
     }

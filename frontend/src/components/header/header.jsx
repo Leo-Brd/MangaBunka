@@ -17,6 +17,15 @@ export default function Header() {
                     </Link>
             </motion.div>
 
+            <div className='Header__kanas'>
+                <p>マ</p>
+                <p>ン</p>
+                <p>ガ</p>
+                <p>ブ</p>
+                <p>ン</p>
+                <p>カ</p>
+            </div>
+
             <div className='Header__links'>
                 <Link to="/login">
                     Se connecter
