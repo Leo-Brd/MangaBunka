@@ -5,6 +5,7 @@ footer {
     justify-content: center;
     gap: 40px;
     height: 100px;
+    border-top: 2px solid black;
 
     p {
         font-size: 20px;
@@ -13,5 +14,10 @@ footer {
     .Header__icons {
         height: 30px;
         width: 30px;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
     }
 }
