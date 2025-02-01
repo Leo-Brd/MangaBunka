@@ -1,0 +1,120 @@
+
+#signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #FF6B00, #FFA559);
+    height: calc(100vh - 120px);
+    box-sizing: border-box;
+
+    .signup__container {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        max-width: 400px;
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+
+            .input-group {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                svg {
+                    font-size: 20px;
+                    color: #FF6B00;
+                }
+
+                input {
+                    width: 100%;
+                    padding: 10px;
+                    border: 2px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 18px;
+
+                    &:focus {
+                        outline: none;
+                        border-color: #FF6B00;
+                    }
+
+                    &::placeholder {
+                        font-size: 16px;
+                        color: #aaa;
+                    }
+                }
+
+                
+            }
+            
+
+            .signup__button {
+                background-color: #FF6B00;
+                color: white;
+                border: none;
+                padding: 15px;
+                font-size: 18px;
+                border-radius: 10px;
+                transition: transform 0.3s ease, background-color 0.3s;
+
+                &:hover {
+                    transform: scale(1.05);
+                    background-color: #e65c00;
+                }
+            }
+        }
+
+        .signup__google {
+            width: 100%;
+
+            .google__button {
+                background-color: #DB4437;
+                color: white;
+                border: none;
+                padding: 12px;
+                width: 100%;
+                font-size: 16px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #c23321;
+                }
+            }
+        }
+
+        .signup__loginLink {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+
+            a {
+                color: #FF6B00;
+                font-weight: bold;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
