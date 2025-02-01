@@ -13,68 +13,79 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        gap: 80px;
+        padding: 40px;
+        gap: 60px;
         width: 100%;
-        height: 100%;
+        max-width: 400px;
+        border-radius: 20px;
 
         h1 {
-            font-size: 50px;
+            font-size: 32px;
+            margin-bottom: 10px;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            height: 200px;
+            gap: 15px;
+            width: 100%;
 
             .input-group {
                 display: flex;
-                width: 100%;
-                gap: 20px;
                 align-items: center;
+                gap: 10px;
 
                 svg {
-                    font-size: 25px;
+                    font-size: 20px;
+                    color: #FF6B00;
                 }
 
                 input {
-                    border: 2px solid black;
-                    height: 40px;
-                    width: 300px;
-                    font-size: 20px;
-                    padding: 5px 10px;
+                    width: 100%;
+                    padding: 10px;
+                    border: 2px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 18px;
 
                     &:focus {
                         outline: none;
-
-                        ::placeholder {
-                            color: transparent;
-                        }
+                        border-color: #FF6B00;
                     }
 
-                    ::placeholder {
-                        font-size: 20px;
-                    }
-
-                    ::content {
-                        font-size: 20px;
+                    &::placeholder {
+                        font-size: 16px;
+                        color: #aaa;
                     }
                 }
             }
 
             .Login__button {
-                font-size: 30px;
-                transition: transform 0.3s ease;
+                background-color: #FF6B00;
+                color: white;
+                border: none;
+                padding: 15px;
+                font-size: 18px;
+                border-radius: 10px;
+                transition: transform 0.3s ease, background-color 0.3s;
+                margin-top: 20px;
 
                 &:hover {
-                    transform: scale(1.1);
+                    transform: scale(1.05);
+                    background-color: #e65c00;
                 }
             }
         }
 
         .Login__signupLink {
 
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+
             a {
+                color: #FF6B00;
+                font-weight: bold;
+
                 &:hover {
                     text-decoration: underline;
                 }
