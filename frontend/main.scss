@@ -3,7 +3,7 @@ body {
     margin: 0;
 }
 
-p, a, h1, h2 {
+p, a, h1, h2, input {
     margin: 0;
     font-family: "Agbalumo", serif;
 }
@@ -18,4 +18,8 @@ button {
     background-color: inherit;
     cursor: pointer;
     font-family: "Agbalumo", serif;
+}
+
+input {
+    border: none;
 }
