@@ -1,0 +1,21 @@
+
+#error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    background: linear-gradient(135deg, #FF6B00, #FFA559);
+    height: calc(100vh - 120px);
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 200px;
+    }
+
+    p {
+        font-size: 22px;
+    }
+}
