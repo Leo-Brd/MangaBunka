@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const userRoutes = require('./routes/userRoutes');
 
 // We create the express app and connect it to the database
 const app = express();
@@ -19,6 +20,9 @@ app.use((req, res, next) => {
 
 // We parse the incoming requests
 app.use(bodyParser.json());
+
+// We use the routes
+app.use('/api/auth', userRoutes);
 
 
 

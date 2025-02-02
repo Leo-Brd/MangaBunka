@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }, // Hashé en BDD
+  password: { type: String, required: true },
   profilePic: { type: String, default: "https://i.pravatar.cc/150?u=default" },
   stats: {
     gamesPlayed: { type: Number, default: 0 },
@@ -14,4 +14,4 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
-export default User;
+module.exports = User;
