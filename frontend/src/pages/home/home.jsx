@@ -21,7 +21,7 @@ export default function Home() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
       >
-        <Link to="/quiz/selection">
+        <Link to="/quizz/gamemode">
           <button>
             Commencer à jouer !
           </button>
@@ -29,7 +29,7 @@ export default function Home() {
       </motion.div>
 
       <Leaderboard />
-      
+
     </main>
   );
 }
