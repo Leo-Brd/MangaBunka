@@ -24,6 +24,8 @@
         background-color: white;
         transition: transform 0.3s ease;
         background: linear-gradient(135deg, #FF6B00, #FFA559);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        color: white;
 
         &:hover {
             transform: scale(1.3);

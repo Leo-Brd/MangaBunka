@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './home.scss';
+import Leaderboard from '../../components/leaderboard/leaderboard';
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
           </button>
         </Link>
       </motion.div>
+
+      <Leaderboard />
+      
     </main>
   );
 }

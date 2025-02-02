@@ -1,0 +1,48 @@
+import { motion } from 'framer-motion';
+import './leaderboard.scss';
+
+const players = [
+    { rank: 1, name: 'Zoro', xp: 15000 },
+    { rank: 2, name: 'Luffy', xp: 14000 },
+    { rank: 3, name: 'Sanji', xp: 13000 },
+    { rank: 4, name: 'Nami', xp: 12500 },
+    { rank: 5, name: 'Robin', xp: 12000 },
+];
+
+export default function Leaderboard() {
+    return (
+        <section id="leaderboard">
+            <motion.h2
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                🏆 Classement des Meilleurs Joueurs
+            </motion.h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rang</th>
+                        <th>Joueur</th>
+                        <th>XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {players.map((player) => (
+                        <motion.tr
+                            key={player.rank}
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3, delay: player.rank * 0.1 }}
+                        >
+                            <td>#{player.rank}</td>
+                            <td>{player.name}</td>
+                            <td>{player.xp} XP</td>
+                        </motion.tr>
+                    ))}
+                </tbody>
+            </table>
+        </section>
+    );
+}
