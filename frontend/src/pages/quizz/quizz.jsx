@@ -29,8 +29,14 @@ export default function Quizz() {
       {loading ? (
         <CountdownLoader onComplete={() => setLoading(false)} />
       ) : (
-        <div>
-          🎮 Le jeu commence !
+        <div className="question-container">
+          <h2 className="question">Quel est l'objectif de Luffy ?</h2>
+          <div className="answers">
+              <button className="answer">Devenir le roi des pirates</button>
+              <button className="answer">Manger un fruit du démon</button>
+              <button className="answer">Sauver le monde</button>
+              <button className="answer">Devenir le Hokage</button>
+          </div>
         </div>
       )}
     </main>

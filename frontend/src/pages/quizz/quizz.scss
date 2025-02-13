@@ -1,3 +1,5 @@
+@use "sass:color";
+
 
 #quizz {
     display: flex;
@@ -5,7 +7,53 @@
     align-items: center;
     height: calc(100vh - 120px);
     box-sizing: border-box;
+
+    .question-container {
+        max-width: 600px;
+        height: 400px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    
+        .question {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 60px;
+            color: #333;
+        }
+    
+        .answers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+    
+            .answer {
+                background: #ff7f00;
+                color: #fff;
+                width: calc((100% / 2 ) - 20px);
+                border: none;
+                padding: 12px 20px;
+                font-size: 1rem;
+                border-radius: 8px;
+                transition: 0.3s ease;
+                
+                &:hover {
+                    background: color.adjust(#ff7f00, $lightness: -10%);
+                    transform: scale(1.05);
+                }
+    
+                &:active {
+                    background: color.adjust(#ff7f00, $lightness: 10%);
+                }
+            }
+        }
+    }
 }
+
+
+
 
 // The style for the loader
 
