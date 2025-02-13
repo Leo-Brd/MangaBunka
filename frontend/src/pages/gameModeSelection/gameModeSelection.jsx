@@ -1,5 +1,6 @@
 import './gameModeSelection.scss';
 import { Link } from 'react-router-dom';
+import Luffy from '../../assets/luffy.png';
 
 export default function GameModeSelection() {
     return (
@@ -25,6 +26,8 @@ export default function GameModeSelection() {
                     </div>
                 </div>
             </div>
+
+            <img src={Luffy} id="Luffy__img"/>
         </main>
     );
 }
