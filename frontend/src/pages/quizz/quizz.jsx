@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import './quizz.scss'
+import { questionLists, allQuestions } from "../../assets/questions";
+
 
 // The loader component
 const CountdownLoader = ({ onComplete }) => {
@@ -21,8 +24,26 @@ const CountdownLoader = ({ onComplete }) => {
   );
 };
 
+const getRandomQuestions = (questions, count = 20) => {
+  const shuffled = [...questions].sort(() => 0.5 - Math.random()); // Mélange les questions
+  return shuffled.slice(0, count); // Prend les 20 premières
+};
+
+
 export default function Quizz() {
   const [loading, setLoading] = useState(true);
+  const { mode } = useParams();
+
+  useEffect(() => {
+    let selectedQuestions = [];
+
+    if (mode === "all") {
+      selectedQuestions = getRandomQuestions(allQuestions);
+    } else {
+      const level = parseInt(mode, 10);
+      selectedQuestions = getRandomQuestions(questionLists[level] || []);
+    }
+  }, [mode]);
 
   return (
     <main id="quizz">

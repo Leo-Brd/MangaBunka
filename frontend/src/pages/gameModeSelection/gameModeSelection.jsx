@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Luffy from '../../assets/luffy.png';
 
 export default function GameModeSelection() {
+
     return (
         <main id="game-mode-selection">
             <h1>Choisissez votre mode de jeu</h1>

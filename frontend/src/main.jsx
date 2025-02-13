@@ -23,8 +23,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/quizz/gamemode" element={<GameModeSelection />} />
-        <Route path="/quizz/all" element={<Quizz />} />
-        <Route path="/quizz/:difficulty" element={<ErrorPage />} />
+        <Route path="/quizz/:mode" element={<Quizz />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
