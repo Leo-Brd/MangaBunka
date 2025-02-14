@@ -6,4 +6,9 @@ export const questionList5 = [
         options: ['6 Mai 2021', '14 Aout 2021', '3 Novembre 2021', '5 Fevrier 2022'],
         correctAnswer: '6 Mai 2021',
     },
+    {
+        question: "Dans Death Note, combien de règles différentes y a-t-il dans un Death Note ?",
+        options: ["92", "108", "132", "154"],
+        correctAnswer: "108",
+      },
 ]

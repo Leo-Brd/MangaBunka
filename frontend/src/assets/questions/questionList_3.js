@@ -27,4 +27,39 @@ export const questionList3 = [
         options: ['La Thompson', 'La Famas', "L'AK-47", 'Le bouclier'],
         correctAnswer: 'La Thompson',
     },
+    {
+        question: "Quel est le prénom du créateur de Pokémon ?",
+        options: ["Satoshi Tajiri", "Ken Sugimori", "Masashi Kishimoto", "Akira Toriyama"],
+        correctAnswer: "Satoshi Tajiri",
+    },
+    {
+        question: "Dans Hunter x Hunter, quel est le nom de la technique spéciale de Killua qui utilise l'électricité ?",
+        options: ["Godspeed", "Thunder Clap", "Lightning Strike", "Volt Dash"],
+        correctAnswer: "Godspeed",
+    },
+    {
+        question: "Dans Evangelion, quel est le prénom du père de Shinji ?",
+        options: ["Gendo", "Ryoji", "Fuyutsuki", "Asuka"],
+        correctAnswer: "Gendo",
+    },
+    {
+        question: "Dans Re:Zero, comment s’appelle la fille aux cheveux bleus qui accompagne Subaru ?",
+        options: ["Rem", "Ram", "Rim", "Rym"],
+        correctAnswer: "Rem",
+    },
+    {
+        question: "Dans Hunter x Hunter, comment s’appelle la technique de Nen utilisée par Kurapika contre la Brigade Fantôme ?",
+        options: ["Chaînes du jugement", "Chaînes du coeur", "Chaînes du contrat", "Chaînes de la vengeance"],
+        correctAnswer: "Chaînes du jugement",
+    },
+    {
+        question: "Dans Fullmetal Alchemist, quel est le nom de l’alchimiste à l’origine de la transmutation interdite de Nina Tucker ?",
+        options: ["Shou Tucker", "Kimblee", "Van Hohenheim", "Bradley"],
+        correctAnswer: "Shou Tucker",
+    },
+    {
+        question: "Dans Bleach, quel est le nom du capitaine de la 11e division du Gotei 13 ?",
+        options: ["Byakuya Kuchiki", "Kenpachi Zaraki", "Shunsui Kyoraku", "Toshiro Hitsugaya"],
+        correctAnswer: "Kenpachi Zaraki",
+    },
 ]

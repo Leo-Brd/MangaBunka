@@ -51,4 +51,49 @@ export const questionList1 = [
     options: ['Un sabre (Zanpakuto)', 'Un pistolet', 'Une faux', 'Un arc'],
     correctAnswer: 'Un sabre (Zanpakuto)',
   },
+  {
+    question: "Dans Naruto, quel est le nom du démon renard scellé en Naruto ?",
+    options: ["Kurama", "Shukaku", "Matatabi", "Gyūki"],
+    correctAnswer: "Kurama",
+  },
+  {
+    question: "Dans l'Attaque des Titans, quel est le nom du Titan d'Eren ?",
+    options: ["Titan Assaillant", "Titan Colossal", "Titan Bestial", "Titan Cuirassé"],
+    correctAnswer: "Titan Assaillant",
+  },
+  {
+    question: "Quel est le prénom du protagoniste de Death Note ?",
+    options: ["Light", "L", "Ryuk", "Misa"],
+    correctAnswer: "Light",
+  },
+  {
+    question: "Dans JoJo’s Bizarre Adventure, quel est le premier JoJo de la lignée ?",
+    options: ["Jonathan Joestar", "Joseph Joestar", "Jotaro Kujo", "Giorno Giovanna"],
+    correctAnswer: "Jonathan Joestar",
+  },
+  {
+    question: "Dans Black Clover, quelle est la particularité magique d'Asta ?",
+    options: ["Il n’a pas de magie", "Il contrôle le temps", "Il parle aux esprits", "Il invoque des dragons"],
+    correctAnswer: "Il n’a pas de magie",
+  },
+  {
+    question: "Dans JoJo’s Bizarre Adventure: Stardust Crusaders, comment s’appelle le Stand de Jotaro ?",
+    options: ["Star Platinum", "The World", "Magician’s Red", "Silver Chariot"],
+    correctAnswer: "Star Platinum",
+  },
+  {
+    question: "Dans L'Attaque des Titans, qui est le premier Titan rencontré dans l’histoire ?",
+    options: ["Le Titan Bestial", "Le Titan Colossal", "Le Titan Cuirassé", "Le Titan Assaillant"],
+    correctAnswer: "Le Titan Colossal",
+  },
+  {
+    question: "Dans My Hero Academia, quel est le pouvoir (Alter) de Shoto Todoroki ?",
+    options: ["Explosion", "Création", "Glace et Feu", "Super Force"],
+    correctAnswer: "Glace et Feu",
+  },
+  {
+    question: "Dans Black Clover, quel est le nom du frère adoptif d’Asta ?",
+    options: ["Yuno", "Noelle", "Finral", "Magna"],
+    correctAnswer: "Yuno",
+  },
 ];

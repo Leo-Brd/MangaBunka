@@ -24,6 +24,7 @@ const CountdownLoader = ({ onComplete }) => {
   );
 };
 
+// To select 20 random questions
 const getRandomQuestions = (questions, count = 20) => {
   const shuffled = [...questions].sort(() => 0.5 - Math.random()); // Mélange les questions
   return shuffled.slice(0, count); // Prend les 20 premières

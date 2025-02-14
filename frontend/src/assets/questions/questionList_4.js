@@ -16,4 +16,14 @@ export const questionList4 = [
         options: ['85', '83', '78', '92'],
         correctAnswer: '85',
     },
+    {
+        question: "Dans Death Note, quel est le nom complet de L ?",
+        options: ["L Lawliet", "Light Yagami", "Ryuzaki Hideki", "L River"],
+        correctAnswer: "L Lawliet",
+    },
+    {
+        question: "Dans My Hero Academia, quel est le vrai nom d’All Might ?",
+        options: ["Toshinori Yagi", "Toshinori Yami", "Toshinori Yama", "Toshinori Aysa"],
+        correctAnswer: "Toshinori Yagi",
+    },
 ]
