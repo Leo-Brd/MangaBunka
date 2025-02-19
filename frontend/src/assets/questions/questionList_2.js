@@ -126,4 +126,9 @@ export const questionList2 = [
         options: ["Nagato", "Yahiko", "Konan", "Obito"],
         correctAnswer: "Nagato",
     },
+    {
+        question: "Dans Code Geass, quel est le vrai nom de Zero ?",
+        options: ["Suzaku Kururugi", "C.C.", "Lelouch Lamperouge", "Schneizel el Britannia"],
+        correctAnswer: "Lelouch Lamperouge",
+    }
 ]

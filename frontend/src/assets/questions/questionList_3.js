@@ -62,4 +62,44 @@ export const questionList3 = [
         options: ["Byakuya Kuchiki", "Kenpachi Zaraki", "Shunsui Kyoraku", "Toshiro Hitsugaya"],
         correctAnswer: "Kenpachi Zaraki",
     },
+    {
+        question: "Dans Fairy Tail, qui est le maître de la guilde avant Makarof ?",
+        options: ["Gildarts", "Hades", "Zeref", "Mavis"],
+        correctAnswer: "Hades",
+    },
+    {
+        question: "Dans Naruto, qui est le premier utilisateur connu du Mangekyō Sharingan ?",
+        options: ["Madara Uchiha", "Obito Uchiha", "Indra Otsutsuki", "Itachi Uchiha"],
+        correctAnswer: "Indra Otsutsuki",
+    },
+    {
+        question: "Dans Dragon Ball Z, combien de formes Freezer possède-t-il avant sa forme dorée ?",
+        options: ["2", "3", "4", "5"],
+        correctAnswer: "4",
+    },
+    {
+        question: "Dans L'Attaque des Titans, quel est le véritable but de Zeke Yeager ?",
+        options: ["Détruire Marley", "Éradiquer les Eldiens", "Mettre en place l'euthanasie Eldienne", "Renverser le roi Fritz"],
+        correctAnswer: "Mettre en place l'euthanasie Eldienne",
+    },
+    {
+        question: "Dans Vinland Saga, comment s'appelle le roi d'Angleterre contre lequel Thorfinn se bat dans la première saison ?",
+        options: ["Canute", "Sweyn", "Harald", "Edmund"],
+        correctAnswer: "Sweyn",
+    },
+    {
+        question: "Dans Dragon Ball Super, quelle est la technique ultime de Jiren lors du Tournoi du Pouvoir ?",
+        options: ["Puissance absolue", "Transcendance", "Impact Omega", "Flash infini"],
+        correctAnswer: "Impact Omega",
+    },
+    {
+        question: "Dans Death Note, quel est le tout premier crime commis par Light Yagami avec le Death Note ?",
+        options: ["Un meurtre d'un criminel en direct", "Un accident de voiture", "Un suicide", "Un empoisonnement"],
+        correctAnswer: "Un accident de voiture",
+    },
+    {
+        question: "Dans Jujutsu Kaisen, quelle est la technique d'extension du territoire de Mahito ?",
+        options: ["Auto-embellissement", "Domaine de l'âme", "Transfiguration infinie", "Sanctuaire du Corps"],
+        correctAnswer: "Transfiguration infinie",
+    },
 ]

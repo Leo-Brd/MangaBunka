@@ -10,5 +10,10 @@ export const questionList5 = [
         question: "Dans Death Note, combien de règles différentes y a-t-il dans un Death Note ?",
         options: ["92", "108", "132", "154"],
         correctAnswer: "108",
-      },
+    },
+    {
+        question: "Dans Vinland Saga, combien de vikings Askeladd commande-t-il au moment de sa première rencontre avec Thorfinn ?",
+        options: ["20", "50", "100", "200"],
+        correctAnswer: "100",
+    },
 ]
