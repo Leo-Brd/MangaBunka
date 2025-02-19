@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import './quizz.scss'
 import { questionLists, allQuestions } from "../../assets/questions";
+import Leaderboard from '../../components/leaderboard/leaderboard';
 
 
 // The loader component
@@ -48,17 +49,24 @@ export default function Quizz() {
 
   return (
     <main id="quizz">
+
       {loading ? (
         <CountdownLoader onComplete={() => setLoading(false)} />
       ) : (
-        <div className="question-container">
-          <h2 className="question">Quel est l'objectif de Luffy ?</h2>
-          <div className="answers">
-              <button className="answer">Devenir le roi des pirates</button>
-              <button className="answer">Manger un fruit du démon</button>
-              <button className="answer">Sauver le monde</button>
-              <button className="answer">Devenir le Hokage</button>
-          </div>
+        <div className="quizz-container">
+          <Leaderboard />
+
+          <article className="question-container">
+            <h2 className="question">Quel est l'objectif de Luffy ?</h2>
+            <div className="answers">
+                <button className="answer">Devenir le roi des pirates</button>
+                <button className="answer">Manger un fruit du démon</button>
+                <button className="answer">Sauver le monde</button>
+                <button className="answer">Devenir le Hokage</button>
+            </div>
+          </article>
+
+          <Leaderboard />
         </div>
       )}
     </main>
