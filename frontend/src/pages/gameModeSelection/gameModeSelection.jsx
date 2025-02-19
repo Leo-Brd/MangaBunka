@@ -1,4 +1,5 @@
 import './gameModeSelection.scss';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Luffy from '../../assets/luffy.png';
 
@@ -28,7 +29,14 @@ export default function GameModeSelection() {
                 </div>
             </div>
 
-            <img src={Luffy} id="Luffy__img"/>
+            <motion.img
+                src={Luffy}
+                alt="Luffy"
+                id="Luffy__img"
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+            />
         </main>
     );
 }
