@@ -51,6 +51,46 @@
                     &:active {
                         background: color.adjust(#ff7f00, $lightness: 10%);
                     }
+
+                    &.selected {
+                        background-color: #d0e7ff;
+                        border: 2px solid #007bff;
+                    }
+                
+                    &.correct {
+                        background-color: #28a745;
+                        color: white;
+                    }
+                
+                    &.incorrect {
+                        background-color: #dc3545;
+                        color: white;
+                    }
+                
+                    &:disabled {
+                        opacity: 0.7;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+
+            .validate-button, .next-button {
+                padding: 10px 20px;
+                margin-top: 20px;
+                border: none;
+                border-radius: 8px;
+                background-color: #ff7f00;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s;
+            
+                &:hover {
+                    background-color: #e36d00;
+                }
+            
+                &:disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
                 }
             }
         }

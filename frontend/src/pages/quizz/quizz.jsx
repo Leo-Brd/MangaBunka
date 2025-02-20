@@ -40,6 +40,8 @@ export default function Quizz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     let selectedQuestions = [];
@@ -55,12 +57,26 @@ export default function Quizz() {
   }, [mode]);
 
   // Function to handle answer selection
-  const handleAnswer = (selectedAnswer) => {
-    const currentQuestion = questions[currentQuestionIndex];
-
-    if (selectedAnswer === currentQuestion.correctAnswer) {
-      setScore(score + 1);
+  const handleAnswerSelect = (answer) => {
+    if (!validated) {
+      setSelectedAnswer(answer);
     }
+  };
+
+  // Function to validate the selected answer
+  const handleValidation = () => {
+    if (selectedAnswer) {
+      setValidated(true);
+      if (selectedAnswer === questions[currentQuestionIndex].correctAnswer) {
+        setScore(score + 1);
+      }
+    }
+  };
+
+  // Function to move to the next question
+  const handleNextQuestion = () => {
+    setValidated(false);
+    setSelectedAnswer(null);
 
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (nextQuestionIndex < questions.length) {
@@ -87,17 +103,40 @@ export default function Quizz() {
 
           <article className="question-container">
             <h2 className="question">{questions[currentQuestionIndex].question}</h2>
+
             <div className="answers">
               {questions[currentQuestionIndex].options.map((option, index) => (
                   <button
                     key={index}
-                    className="answer"
-                    onClick={() => handleAnswer(option)}
+                    className={`answer 
+                      ${validated && option === questions[currentQuestionIndex].correctAnswer ? 'correct' : ''} 
+                      ${validated && option === selectedAnswer && option !== questions[currentQuestionIndex].correctAnswer ? 'incorrect' : ''}
+                      ${selectedAnswer === option ? 'selected' : ''}`
+                    }
+                    onClick={() => handleAnswerSelect(option)}
+                    disabled={validated}
                   >
                     {option}
                   </button>
                 ))}
             </div>
+
+            {!validated ? (
+              <button
+                className="validate-button"
+                onClick={handleValidation}
+                disabled={!selectedAnswer}
+              >
+                Valider
+              </button>
+            ) : (
+              <button
+                className="next-button"
+                onClick={handleNextQuestion}
+              >
+                Suivant
+              </button>
+            )}
           </article>
 
           <Leaderboard />
