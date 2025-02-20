@@ -7,5 +7,6 @@ const userCtrl = require('../controllers/userController');
 
 // All the routes for the users
 router.post('/signup', multer, compressImg, userCtrl.signup);
+router.post('/login', userCtrl.login);
 
 module.exports = router;
