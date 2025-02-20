@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import './quizz.scss'
 import { questionLists, allQuestions } from "../../assets/questions";
 import Leaderboard from '../../components/leaderboard/leaderboard';
+import GameInfo from '../../components/gameInfo/gameInfo';
 
 
 // The loader component
@@ -39,6 +40,7 @@ export default function Quizz() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [scoreHistory, setScoreHistory] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [validated, setValidated] = useState(false);
@@ -67,9 +69,13 @@ export default function Quizz() {
   const handleValidation = () => {
     if (selectedAnswer) {
       setValidated(true);
-      if (selectedAnswer === questions[currentQuestionIndex].correctAnswer) {
-        setScore(score + 1);
-      }
+      const isCorrect = selectedAnswer === questions[currentQuestionIndex].correctAnswer;
+        
+        if (isCorrect) {
+            setScore(score + 1);
+        }
+
+        setScoreHistory([...scoreHistory, isCorrect]);
     }
   };
 
@@ -139,7 +145,11 @@ export default function Quizz() {
             )}
           </article>
 
-          <Leaderboard />
+          <GameInfo
+          remainingQuestions = {(20 - currentQuestionIndex)}
+          mode = { mode }
+          scoreHistory = { scoreHistory }
+          />
         </div>
       )}
     </main>

@@ -1,0 +1,48 @@
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        h3 {
+            font-size: 1.2rem;
+            color: #333;
+            span {
+                font-weight: bold;
+                color: #ff7f00;
+            }
+        }
+    }
+
+    .score-tracker {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+
+        .score-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ddd;
+
+            &.correct {
+                background-color: #4caf50;
+            }
+
+            &.wrong {
+                background-color: #f44336;
+            }
+        }
+    }
+}
