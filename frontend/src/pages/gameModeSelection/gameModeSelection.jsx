@@ -13,7 +13,9 @@ export default function GameModeSelection() {
                 <div className="game-card">
                     <h2>Tous Niveaux</h2>
                     <p>Jouez sans restriction de niveau et affrontez des défis variés !</p>
-                    <Link to="/quizz/all"><button>Jouer</button></Link>
+                    <Link to="/quizz/all">
+                        <button className='game-card__play-btn'>Jouer</button>
+                    </Link>
                 </div>
 
                 <div className="game-card">

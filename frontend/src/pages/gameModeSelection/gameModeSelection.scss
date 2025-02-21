@@ -15,58 +15,62 @@
 
     .card-container {
         display: flex;
-        gap: 40px;
+        gap: 100px;
         flex-wrap: wrap;
         justify-content: center;
-    }
 
-    .game-card {
-        background-color: white;
-        padding: 20px 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        max-width: 300px;
-
-        &:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        h2 {
-            font-size: 28px;
-            color: #FF6B00;
-        }
-
-        p {
-            margin: 15px 0;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #FF6B00;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: background 0.3s ease;
-
+        .game-card {
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 400px;
+    
             &:hover {
-                background-color: #E65C00;
+                transform: scale(1.05);
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
             }
-        }
-
-        .level-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-
+    
+            h2 {
+                font-size: 30px;
+                color: #FF6B00;
+            }
+    
+            p {
+                margin: 15px 0;
+                font-size: 20px;
+            }
+    
             button {
-                padding: 8px 12px;
-                font-size: 14px;
+                background-color: #FF6B00;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-size: 20px;
+                transition: background 0.3s ease;
+    
+                &:hover {
+                    background-color: #E65C00;
+                }
+            }
+    
+            .level-buttons {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+    
+                button {
+                    padding: 8px 12px;
+                    font-size: 20px;
+                }
+            }
+
+            .game-card__play-btn {
+                margin-top: 20px;
             }
         }
     }
