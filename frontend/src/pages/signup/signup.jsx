@@ -12,6 +12,7 @@ export default function Signup() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +32,7 @@ export default function Signup() {
             const data = await response.json();
 
             if (response.ok) {
-                useNavigate('/login');
+                navigate('/login');
             } else {
                 setError(data.message || 'Une erreur est survenue.');
             }

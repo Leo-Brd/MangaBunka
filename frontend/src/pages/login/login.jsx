@@ -1,17 +1,42 @@
 import './login.scss';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Email:', email, 'Password:', password);
+        
+        try {
+            const response = await fetch('http://localhost:4000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.message || 'Erreur lors de la connexion.');
+                return;
+            }
+
+            localStorage.setItem('token', data.token);
+
+            navigate('/');
+        } catch (err) {
+            setError('Veuillez réessayer plus tard.');
+        }
     };
+    
 
     return (
         <main id="login">
@@ -39,6 +64,8 @@ export default function Login() {
                             required
                         />
                     </div>
+
+                    {error && <p className="login__error">{error}</p>}
 
                     <button type="submit" className="Login__button">Se connecter</button>
                 </form>

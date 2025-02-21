@@ -50,16 +50,7 @@ exports.login = async (req, res, next) => {
             { expiresIn: '24h' }
         );
 
-        res.status(200).json({
-            message: 'Connexion réussie !',
-            token,
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                profilePic: user.profilePic,
-            }
-        });
+        res.status(200).json({ token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Erreur lors de la connexion.' });
