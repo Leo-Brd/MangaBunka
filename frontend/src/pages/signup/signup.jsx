@@ -1,4 +1,5 @@
 import './signup.scss';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faLock, faImage } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -43,7 +44,7 @@ export default function Signup() {
                     </button>
                 </div>
 
-                <p className="signup__loginLink">Déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
+                <p className="signup__loginLink">Déjà un compte ? <Link to="/login">Connectez-vous ici</Link></p>
             </div>
         </main>
     );

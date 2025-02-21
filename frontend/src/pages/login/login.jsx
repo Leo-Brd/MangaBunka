@@ -1,5 +1,6 @@
 import './login.scss';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
@@ -43,7 +44,7 @@ export default function Login() {
                 </form>
 
                 <p className="Login__signupLink">
-                    Pas encore inscrit ? <a href="/signup">Créer un compte</a>
+                    Pas encore inscrit ? <Link to="/signup">Créer un compte</Link>
                 </p>
             </section>
         </main>

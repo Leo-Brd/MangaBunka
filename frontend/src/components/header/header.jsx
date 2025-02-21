@@ -30,10 +30,6 @@ export default function Header() {
                 <Link to="/login">
                     Se connecter
                 </Link>
-
-                <Link to="/signup">
-                    S'inscrire
-                </Link>
             </div>
 
         </header>
