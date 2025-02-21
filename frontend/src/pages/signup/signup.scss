@@ -56,11 +56,14 @@
                         font-size: 16px;
                         color: #aaa;
                     }
-                }
-
-                
+                }         
             }
-            
+
+            .error-message {
+                color: red;
+                margin-top: 10px;
+                text-align: center;
+            }            
 
             .signup__button {
                 background-color: #FF6B00;
@@ -69,6 +72,7 @@
                 padding: 15px;
                 font-size: 18px;
                 border-radius: 10px;
+                margin-top: 15px;
                 transition: transform 0.3s ease, background-color 0.3s;
 
                 &:hover {

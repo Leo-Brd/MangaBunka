@@ -12,17 +12,12 @@ exports.signup = async (req, res, next) => {
             return res.status(400).json({ message: 'Email ou pseudo déjà utilisé.' });
         }
 
-        const profilePic = req.file
-            ? `/pp/${req.file.filename}`
-            : 'https://i.pravatar.cc/150?u=default';
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new User({
             username,
             email,
             password: hashedPassword,
-            profilePic,
         });
 
         await user.save();
