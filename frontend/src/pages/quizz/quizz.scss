@@ -14,7 +14,7 @@
 
         .question-container {
             width: 700px;
-            height: 400px;
+            max-height: 450px;
             padding: 20px;
             background: #fff;
             border-radius: 12px;
@@ -37,9 +37,9 @@
         
                 .answer {
                     background: #ff7f00;
+                    border: 2px solid #ff7f00;
                     color: #fff;
                     width: calc((100% / 2 ) - 20px);
-                    border: none;
                     padding: 12px 20px;
                     font-size: 1.3rem;
                     border-radius: 8px;
@@ -56,7 +56,7 @@
 
                     &.selected {
                         background-color: #d0e7ff;
-                        border: 2px solid #007bff;
+                        border-color: #007bff;
                     }
                 
                     &.correct {
