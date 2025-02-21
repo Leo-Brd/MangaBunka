@@ -1,9 +1,25 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Logo from '../../assets/logo2.png'
 import './header.scss';
 
 export default function Header() {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        navigate('/');
+    };
+
     return (
         <header>
             <motion.div
@@ -27,9 +43,15 @@ export default function Header() {
             </div>
 
             <div className='Header__links'>
-                <Link to="/login">
-                    Se connecter
-                </Link>
+                {isLoggedIn ? (
+                        <button onClick={handleLogout} className="Header__button--logout">
+                            Se déconnecter
+                        </button>
+                    ) : (
+                        <Link to="/login" className="Header__button--login">
+                            Se connecter
+                        </Link>
+                )}
             </div>
 
         </header>
