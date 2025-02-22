@@ -28,7 +28,7 @@ export default function Home() {
         </Link>
       </motion.div>
 
-      <Leaderboard />
+      <Leaderboard largeVersion={true}/>
 
     </main>
   );

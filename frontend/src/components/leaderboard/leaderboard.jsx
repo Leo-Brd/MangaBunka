@@ -9,9 +9,9 @@ const players = [
     { rank: 5, name: 'Robin', xp: 12000 },
 ];
 
-export default function Leaderboard() {
+export default function Leaderboard({ largeVersion = false }) {
     return (
-        <section id="leaderboard">
+        <section id="leaderboard" className={largeVersion ? 'large' : ''}>
             <motion.h2
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ export default function Leaderboard() {
                     <tr>
                         <th>Rang</th>
                         <th>Joueur</th>
-                        <th>XP</th>
+                        {largeVersion && <th>XP</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,7 @@ export default function Leaderboard() {
                         >
                             <td>#{player.rank}</td>
                             <td>{player.name}</td>
-                            <td>{player.xp} XP</td>
+                            {largeVersion && <td>{player.xp} XP</td>}
                         </motion.tr>
                     ))}
                 </tbody>

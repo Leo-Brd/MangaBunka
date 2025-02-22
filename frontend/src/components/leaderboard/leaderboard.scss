@@ -6,7 +6,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     color: #fff;
-    max-width: 600px;
+    max-width: 400px;
+    transition: max-width 0.3s ease;
 
     h2 {
         font-size: 28px;
@@ -41,5 +42,9 @@
         td {
             font-size: 18px;
         }
+    }
+
+    &.large {
+        max-width: 600px;
     }
 }
