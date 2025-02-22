@@ -2,10 +2,13 @@ import { motion } from 'framer-motion';
 import './gameInfo.scss';
 
 const GameInfo = ({ remainingQuestions, mode, scoreHistory }) => {
+
+    const modeNames = ['Easy', 'Medium', 'Difficult', 'Hardcore', 'Impossible'];
+
     return (
         <section className="game-info">
             <div className="info-section">
-                <h3>Mode de jeu : <span>{mode}</span></h3>
+                <h3>Mode de jeu : <span>{modeNames[Number(mode) - 1] || mode}</span></h3>
                 <h3>Questions restantes : <span>{remainingQuestions}</span></h3>
             </div>
 

@@ -1,5 +1,5 @@
 @use "sass:color";
-
+@import "../../../variables.scss";
 
 #quizz {
     height: calc(100vh - 120px);
