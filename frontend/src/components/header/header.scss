@@ -47,6 +47,7 @@ header {
         align-items: center;
         justify-content: flex-end;
         width: 20%;
+        gap: 30px;
 
         a, button {
             font-size: 20px;
@@ -59,5 +60,25 @@ header {
             }
         }
 
+    }
+
+    .Header__user {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 20px;
+    
+        .Header__profilePic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ff7f00;
+        }
+    
+        .Header__username {
+            font-size: 20px;
+        }
+    
     }
 }

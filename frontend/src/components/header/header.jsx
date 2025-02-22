@@ -1,13 +1,22 @@
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import Logo from '../../assets/logo2.png'
+import Logo from '../../assets/logo.png'
+import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
 
 export default function Header() {
 
     const { isLoggedIn, logout } = useContext(AuthContext);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, [isLoggedIn]);
 
     return (
         <header>
@@ -33,9 +42,22 @@ export default function Header() {
 
             <div className='Header__links'>
                 {isLoggedIn ? (
+                    <>
                         <button onClick={logout}>
                             Se déconnecter
                         </button>
+                        {user && (
+                            <div className='Header__user'>
+                                <img 
+                                    src={ user.profilePic || DefaultPP } 
+                                    alt="Profile" 
+                                    className="Header__profilePic" 
+                                />
+                                <span className="Header__username">{user.username}</span>
+                            </div>
+                        )}
+                    </>
+                        
                     ) : (
                         <Link to="/login">
                             Se connecter

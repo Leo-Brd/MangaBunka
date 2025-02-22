@@ -30,7 +30,7 @@ export default function Login() {
                 return;
             }
 
-            login(data.token);
+            login(data.token, data.user);
             
         } catch (err) {
             setError('Veuillez réessayer plus tard.');
@@ -65,7 +65,7 @@ export default function Login() {
                         />
                     </div>
 
-                    {error && <p className="login__error">{error}</p>}
+                    {error && <p className="Login__error">{error}</p>}
 
                     <button type="submit" className="Login__button">Se connecter</button>
                 </form>
