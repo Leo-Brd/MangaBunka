@@ -1,5 +1,6 @@
 import './login.scss';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +9,7 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,9 +30,8 @@ export default function Login() {
                 return;
             }
 
-            localStorage.setItem('token', data.token);
-
-            navigate('/');
+            login(data.token);
+            
         } catch (err) {
             setError('Veuillez réessayer plus tard.');
         }

@@ -2,6 +2,7 @@ import React from 'react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Home from './pages/home/home';
 import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
@@ -15,20 +16,22 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <Router>
+      <AuthProvider>
 
-      <Header />
+        <Header />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/quizz/gamemode" element={<GameModeSelection />} />
-        <Route path="/quizz/:mode" element={<Quizz />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/quizz/gamemode" element={<GameModeSelection />} />
+            <Route path="/quizz/:mode" element={<Quizz />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
 
-      <Footer />
+        <Footer />
 
+      </AuthProvider>
     </Router>
 
   </StrictMode>,
