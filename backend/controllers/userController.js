@@ -57,3 +57,35 @@ exports.login = async (req, res, next) => {
         res.status(500).json({ error: 'Erreur lors de la connexion.' });
     }
 };
+
+// Update the stats when a quizz is finished
+exports.updateUserStats = async (req, res, next) => {
+    try {
+        const { userId, score } = req.body;
+        
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('Utilisateur non trouvé');
+        }
+
+        const { gamesPlayed, averageScore, xp, level } = user.stats;
+
+        const newGamesPlayed = gamesPlayed + 1;
+        const newAverageScore = ((averageScore * gamesPlayed) + score) / newGamesPlayed;
+        const newXp = xp + ( score * 10 );
+
+        const newLevel = Math.floor(newXp / 200) + 1;
+
+        user.stats.gamesPlayed = newGamesPlayed;
+        user.stats.averageScore = newAverageScore;
+        user.stats.xp = newXp;
+        user.stats.level = newLevel;
+
+        await user.save();
+        res.status(200).json({ message: 'Stats modifiées !' });
+
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour des statistiques utilisateur :', error.message);
+        throw new Error('Impossible de mettre à jour les statistiques utilisateur');
+    }
+};

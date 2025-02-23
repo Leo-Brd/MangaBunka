@@ -83,7 +83,7 @@ export default function Header() {
                         <p><span>Pseudo :</span> {user.username}</p>
                         <p><span>Email :</span> {user.email}</p>
                         <p><span>Parties jouées :</span> {user.stats.gamesPlayed} </p>
-                        <p><span>Score moyen :</span> {user.stats.averageScore} </p>
+                        <p><span>Score moyen :</span> {user.stats.averageScore}/20 </p>
                         <p><span>Niveau :</span> {user.stats.level} </p>
                         <p><span>XP :</span> {user.stats.xp} </p>
 
