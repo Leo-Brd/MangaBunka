@@ -7,9 +7,9 @@ const userSchema = new mongoose.Schema({
   profilePic: { type: String, default: '' },
   stats: {
     gamesPlayed: { type: Number, default: 0 },
-    highestScore: { type: Number, default: 0 },
     averageScore: { type: Number, default: 0 },
-    level: { type: Number, default: 1 }
+    level: { type: Number, default: 1 },
+    xp: { type: Number, default: 0 }
   }
 }, { timestamps: true });
 
