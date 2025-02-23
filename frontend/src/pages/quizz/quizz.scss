@@ -36,37 +36,63 @@
                 margin-bottom: 30px;
         
                 .answer {
-                    background: #ff7f00;
-                    border: 2px solid #ff7f00;
+                    position: relative;
+                    overflow: hidden;
+                    border: 2px solid transparent;
                     color: #fff;
-                    width: calc((100% / 2 ) - 20px);
+                    width: calc((100% / 2) - 20px);
                     padding: 12px 20px;
                     font-size: 1.3rem;
                     border-radius: 8px;
                     transition: 0.3s ease;
-                    
-                    &:hover {
-                        background: color.adjust(#ff7f00, $lightness: -10%);
-                        transform: scale(1.05);
+                    z-index: 1;
+                    background: $main-color;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 8px;
+                        transition: 0.3s ease;
+                        z-index: -1;
+                        background: inherit;
                     }
-        
+
+                    &:hover {
+                        transform: scale(1.05);
+                        &::before {
+                            filter: brightness(0.9);
+                        }
+                    }
+
                     &:active {
-                        background: color.adjust(#ff7f00, $lightness: 10%);
+                        &::before {
+                            filter: brightness(1.1);
+                        }
                     }
 
                     &.selected {
-                        background-color: #d0e7ff;
                         border-color: #007bff;
+                        &::before {
+                            background: linear-gradient(135deg, #d0e7ff, #9ccaff);
+                        }
                     }
-                
+
                     &.correct {
-                        background-color: #28a745;
-                        color: white;
+                        border-color: #28a745;
+                        &::before {
+                            background: linear-gradient(135deg, #28a745, #218838);
+                        }
                     }
-                
+
                     &.incorrect {
-                        background-color: #e57373;
-                        color: white;
+                        border-color: #d32f2f;
+                        &::before {
+                            background: linear-gradient(135deg, #e57373, #d32f2f);
+                        }
                     }
                 
                     &:disabled {
@@ -81,81 +107,20 @@
                 margin-top: 20px;
                 border: none;
                 border-radius: 8px;
-                background-color: #ff7f00;
+                background: $main-color;
                 color: white;
                 font-size: 20px;
                 transition: all 0.3s;
-            
+
                 &:hover {
-                    background-color: #e36d00;
+                    filter: brightness(0.9);
                 }
-            
+
                 &:disabled {
                     background-color: #ccc;
                     cursor: not-allowed;
                 }
             }
-        }
-    }
-
-
-}
-
-
-// The style for the loader
-
-.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    color: black;
-    font-size: 6rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    
-    .count {
-      animation: fadeInOut 1s ease-in-out infinite;
-    }
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.2); }
-}
-
-// The style for the game over page
-
-.game-over {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 120px);
-
-    h2 {
-        font-size: 2.5rem;
-        color: #ff7f00;
-    }
-
-    p {
-        font-size: 1.5rem;
-        margin: 10px 0;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #ff7f00;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s;
-
-        &:hover {
-            background-color: #e36d00;
         }
     }
 }
