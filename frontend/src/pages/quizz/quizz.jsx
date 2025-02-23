@@ -36,6 +36,7 @@ const getRandomQuestions = (questions, count = 20) => {
 export default function Quizz() {
   const [loading, setLoading] = useState(true);
   const { mode } = useParams();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -45,6 +46,7 @@ export default function Quizz() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [validated, setValidated] = useState(false);
 
+  // To choose the questions according to the mode
   useEffect(() => {
     let selectedQuestions = [];
 
@@ -58,14 +60,14 @@ export default function Quizz() {
     setQuestions(selectedQuestions);
   }, [mode]);
 
-  // Function to handle answer selection
+  // To handle answer selection
   const handleAnswerSelect = (answer) => {
     if (!validated) {
       setSelectedAnswer(answer);
     }
   };
 
-  // Function to validate the selected answer
+  // To validate the selected answer
   const handleValidation = () => {
     if (selectedAnswer) {
       setValidated(true);
@@ -79,7 +81,36 @@ export default function Quizz() {
     }
   };
 
-  // Function to move to the next question
+  // To handle the end of a game
+  const handleGameOver = async () => {
+    if (user) {
+      try {
+        const response = await fetch(`http://localhost:4000/api/auth/updateStats/${user._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ score }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          const updatedUser = { ...user, stats: data.stats };
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        } else {
+          console.error('Erreur lors de la mise à jour des statistiques')
+        }
+
+      } catch (error) {
+        console.error('Erreur réseau ou serveur :', error.message);
+      }
+    } else {
+      console.warn('Aucun utilisateur connecté.');
+    }
+  }
+
+  // To move to the next question
   const handleNextQuestion = () => {
     setValidated(false);
     setSelectedAnswer(null);
@@ -89,8 +120,10 @@ export default function Quizz() {
       setCurrentQuestionIndex(nextQuestionIndex);
     } else {
       setGameOver(true);
+      handleGameOver();
     }
   };
+
 
   return (
     <main id="quizz">

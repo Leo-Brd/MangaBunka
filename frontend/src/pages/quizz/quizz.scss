@@ -124,3 +124,64 @@
         }
     }
 }
+
+
+// The style for the loader
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: black;
+    font-size: 6rem;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    .count {
+      animation: fadeInOut 1s ease-in-out infinite;
+    }
+}
+
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+
+
+// The style for the game over page
+
+.game-over {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 120px);
+
+    h2 {
+        font-size: 2.5rem;
+        color: #ff7f00;
+    }
+
+    p {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #ff7f00;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s;
+
+        &:hover {
+            background-color: #e36d00;
+        }
+    }
+}

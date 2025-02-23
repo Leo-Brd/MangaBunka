@@ -61,7 +61,12 @@ exports.login = async (req, res, next) => {
 // Update the stats when a quizz is finished
 exports.updateUserStats = async (req, res, next) => {
     try {
-        const { userId, score } = req.body;
+        const { score } = req.body;
+        const userId = req.params.id;
+
+        if (!score || isNaN(score)) {
+            return res.status(400).json({ message: 'Score invalide ou manquant.' });
+        }
         
         const user = await User.findById(userId);
         if (!user) {
@@ -82,7 +87,10 @@ exports.updateUserStats = async (req, res, next) => {
         user.stats.level = newLevel;
 
         await user.save();
-        res.status(200).json({ message: 'Stats modifiées !' });
+        res.status(200).json({ 
+            message: 'Stats modifiées !',
+            stats: user.stats
+        });
 
     } catch (error) {
         console.error('Erreur lors de la mise à jour des statistiques utilisateur :', error.message);
