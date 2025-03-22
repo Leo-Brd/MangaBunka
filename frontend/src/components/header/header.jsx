@@ -1,17 +1,17 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Modal from '../modal/modal';
-import Logo from '../../assets/logo.png'
+import Logo from '../../assets/logo.png';
 import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
 
 export default function Header() {
-
     const { isLoggedIn, logout } = useContext(AuthContext);
     const [user, setUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -22,6 +22,26 @@ export default function Header() {
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+    // Fonction pour gérer le changement de photo de profil
+    const handleProfilePicChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const newProfilePic = reader.result;
+                const updatedUser = { ...user, profilePic: newProfilePic };
+                setUser(updatedUser);
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // Fonction pour déclencher le champ de fichier
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
+    };
 
     return (
         <>
@@ -55,7 +75,7 @@ export default function Header() {
                             {user && (
                                 <div className='Header__user' onClick={openModal}>
                                     <img 
-                                        src={ user.profilePic || DefaultPP } 
+                                        src={user.profilePic || DefaultPP} 
                                         alt="Profile image" 
                                         className="Header__profilePic" 
                                     />
@@ -75,11 +95,21 @@ export default function Header() {
                 <h2>Mon Profil</h2>
                 {user && (
                     <div className="modal-profile">
-                        <img 
-                            src={ user.profilePic || DefaultPP } 
-                            alt="Profile" 
-                            className="modal-profilePic" 
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                            onChange={handleProfilePicChange}
                         />
+                        <div 
+                            className="modal-profilePic"
+                            onClick={triggerFileInput}
+                            style={{ 
+                                backgroundImage: `url(${user.profilePic || DefaultPP})`,
+                                cursor: 'pointer',
+                            }}
+                        ></div>
                         <p><span>Pseudo :</span> {user.username}</p>
                         <p><span>Email :</span> {user.email}</p>
                         <p><span>Parties jouées :</span> {user.stats.gamesPlayed} </p>

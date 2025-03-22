@@ -7,7 +7,6 @@ header {
     border-bottom: 2px solid black;
     background: $main-color;
 
-
     .Header__logo {
         display: flex;
         align-items: center;
@@ -55,12 +54,18 @@ header {
             font-weight: 500;
             margin-right: 40px;
             transition: transform 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid black;
+            background: linear-gradient(135deg, #ff7f00, #ff5500);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
             &:hover {
                 transform: scale(1.1);
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
             }
         }
-
     }
 
     .Header__user {
@@ -80,6 +85,5 @@ header {
         .Header__username {
             font-size: 20px;
         }
-    
     }
 }
