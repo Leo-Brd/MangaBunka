@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import './leaderboard.scss';
+import Logo from '../../assets/trophee-etoile.png'
 
 const players = [
     { rank: 1, name: 'Zoro', xp: 15000 },
@@ -12,13 +13,16 @@ const players = [
 export default function Leaderboard({ largeVersion = false }) {
     return (
         <section id="leaderboard" className={largeVersion ? 'large' : ''}>
-            <motion.h2
+
+            <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className='Leaderboard__title'
             >
-                🏆 Classement des Meilleurs Joueurs
-            </motion.h2>
+                <img src={Logo} alt="Logo trophée"/>
+                <h2>Classement des Meilleurs Joueurs</h2>
+            </motion.div>
 
             <table>
                 <thead>

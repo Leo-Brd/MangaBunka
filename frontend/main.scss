@@ -2,10 +2,12 @@ $main-color : linear-gradient(135deg, #FF8C42, #FF6F3C);
 
 body {
     margin: 0;
+    padding: 0;
 }
 
-p, a, h1, h2, input {
+p, a, h1, h2, h3, input, td, th {
     margin: 0;
+    padding: 0;
     font-family: "Agbalumo", serif;
 }
 

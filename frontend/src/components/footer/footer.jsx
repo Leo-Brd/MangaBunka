@@ -1,7 +1,6 @@
 import './footer.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faLinkedin, faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 export default function Footer() {
     return (
@@ -14,6 +13,10 @@ export default function Footer() {
 
             <a href="https://www.linkedin.com/in/leo-bordet/">
                 <FontAwesomeIcon className="Header__icons" icon={faLinkedin} />
+            </a>
+
+            <a href="https://discord.com/users/leo_brd">
+                <FontAwesomeIcon className="Header__icons" icon={faDiscord} />
             </a>
         
         </footer>

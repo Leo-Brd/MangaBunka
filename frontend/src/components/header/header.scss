@@ -71,6 +71,7 @@ header {
     .Header__user {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
         margin-right: 20px;
     

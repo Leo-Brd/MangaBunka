@@ -70,10 +70,10 @@ export default function Header() {
                     {isLoggedIn ? (
                         <>
                             <button onClick={openModal}>
-                                ⚙️ Mon Profil
+                                Mon Profil
                             </button>
                             {user && (
-                                <div className='Header__user' onClick={openModal}>
+                                <div className='Header__user'>
                                     <img 
                                         src={user.profilePic || DefaultPP} 
                                         alt="Profile image" 
