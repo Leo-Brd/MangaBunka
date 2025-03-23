@@ -38,6 +38,8 @@ export default function Header() {
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
 
+                const token = localStorage.getItem('token');
+
                 // Envoyer la nouvelle image à l'API
                 try {
                     const formData = new FormData();
@@ -45,6 +47,9 @@ export default function Header() {
 
                     const response = await fetch(`http://localhost:4000/api/auth/updateProfilePic/${user._id}`, {
                         method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
                         body: formData,
                     });
 
@@ -78,16 +83,17 @@ export default function Header() {
         if (newUsername.trim() === '') return;
 
         try {
-            // Mettre à jour le pseudo dans l'état local
             const updatedUser = { ...user, username: newUsername };
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
 
-            // Envoyer le nouveau pseudo à l'API
+            const token = localStorage.getItem('token');
+
             const response = await fetch(`http://localhost:4000/api/auth/updateUsername/${user._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ username: newUsername }),
             });
@@ -99,7 +105,6 @@ export default function Header() {
             const data = await response.json();
             console.log('Pseudo mis à jour avec succès :', data);
 
-            // Désactiver le mode édition
             setIsEditingUsername(false);
         } catch (error) {
             console.error('Erreur lors de la mise à jour du pseudo :', error);
