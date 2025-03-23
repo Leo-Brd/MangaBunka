@@ -8,9 +8,11 @@ import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
 
 export default function Header() {
-    const { isLoggedIn, logout } = useContext(AuthContext);
-    const [user, setUser] = useState(null);
+    const { isLoggedIn, logout, user: authUser } = useContext(AuthContext);
+    const [user, setUser] = useState(authUser || null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditingUsername, setIsEditingUsername] = useState(false);
+    const [newUsername, setNewUsername] = useState('');
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -24,15 +26,37 @@ export default function Header() {
     const closeModal = () => setIsModalOpen(false);
 
     // Fonction pour gérer le changement de photo de profil
-    const handleProfilePicChange = (event) => {
+    const handleProfilePicChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {
+            reader.onloadend = async () => {
                 const newProfilePic = reader.result;
+
+                // Mettre à jour l'image dans l'état local
                 const updatedUser = { ...user, profilePic: newProfilePic };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
+
+                // Envoyer la nouvelle image à l'API
+                try {
+                    const formData = new FormData();
+                    formData.append('profilePic', file);
+
+                    const response = await fetch(`http://localhost:4000/api/auth/updateProfilePic/${user._id}`, {
+                        method: 'PUT',
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la mise à jour du profil');
+                    }
+
+                    const data = await response.json();
+                    console.log('Profil mis à jour avec succès :', data);
+                } catch (error) {
+                    console.error('Erreur lors de la mise à jour du profil :', error);
+                }
             };
             reader.readAsDataURL(file);
         }
@@ -41,6 +65,45 @@ export default function Header() {
     // Fonction pour déclencher le champ de fichier
     const triggerFileInput = () => {
         fileInputRef.current.click();
+    };
+
+    // Fonction pour éditer le pseudo
+    const handleEditUsername = () => {
+        setIsEditingUsername(true);
+        setNewUsername(user.username);
+    };
+
+    // Fonction pour sauvegarder le nouveau pseudo
+    const handleSaveUsername = async () => {
+        if (newUsername.trim() === '') return;
+
+        try {
+            // Mettre à jour le pseudo dans l'état local
+            const updatedUser = { ...user, username: newUsername };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            // Envoyer le nouveau pseudo à l'API
+            const response = await fetch(`http://localhost:4000/api/auth/updateUsername/${user._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: newUsername }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la mise à jour du pseudo');
+            }
+
+            const data = await response.json();
+            console.log('Pseudo mis à jour avec succès :', data);
+
+            // Désactiver le mode édition
+            setIsEditingUsername(false);
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du pseudo :', error);
+        }
     };
 
     return (
@@ -110,7 +173,24 @@ export default function Header() {
                                 cursor: 'pointer',
                             }}
                         ></div>
-                        <p><span>Pseudo :</span> {user.username}</p>
+                        <p>
+                            <span>Pseudo :</span>
+                            {isEditingUsername ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        value={newUsername}
+                                        onChange={(e) => setNewUsername(e.target.value)}
+                                    />
+                                    <button onClick={handleSaveUsername}>Sauvegarder</button>
+                                </>
+                            ) : (
+                                <>
+                                    {user.username}
+                                    <button onClick={handleEditUsername}>✎</button>
+                                </>
+                            )}
+                        </p>
                         <p><span>Email :</span> {user.email}</p>
                         <p><span>Parties jouées :</span> {user.stats.gamesPlayed} </p>
                         <p><span>Score moyen :</span> {user.stats.averageScore}/20 </p>
