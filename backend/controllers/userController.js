@@ -1,6 +1,8 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 // Signup function
@@ -95,5 +97,76 @@ exports.updateUserStats = async (req, res, next) => {
     } catch (error) {
         console.error('Erreur lors de la mise à jour des statistiques utilisateur :', error.message);
         throw new Error('Impossible de mettre à jour les statistiques utilisateur');
+    }
+};
+
+
+exports.updateProfilePic = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const profilePic = req.file?.path;
+
+        if (!profilePic) {
+            return res.status(400).json({ message: "Veuillez fournir une image de profil." });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        if (user.profilePic && user.profilePic !== 'defaultPP.png') {
+            const oldImagePath = path.join(__dirname, '..', user.profilePic);
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath);
+            }
+        }
+
+        user.profilePic = profilePic;
+        await user.save();
+
+        res.status(200).json({
+            message: "Image de profil mise à jour avec succès.",
+            user: {
+                _id: user._id,
+                username: user.username,
+                profilePic: user.profilePic,
+            },
+        });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour de l'image de profil :", error);
+        res.status(500).json({ message: "Une erreur s'est produite lors de la mise à jour de l'image de profil." });
+    }
+};
+
+exports.updateUsername = async (req, res, next) => {
+    try {
+        const { username } = req.body;
+
+        if (!username) {
+            return res.status(400).json({ message: "Veuillez fournir un pseudo." });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user._id,
+            { username },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json({
+            message: "Pseudo mis à jour avec succès.",
+            user: {
+                _id: updatedUser._id,
+                username: updatedUser.username,
+                profilePic: updatedUser.profilePic,
+            },
+        });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour du pseudo :", error);
+        res.status(500).json({ message: "Une erreur s'est produite lors de la mise à jour du pseudo." });
     }
 };
