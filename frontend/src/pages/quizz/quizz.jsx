@@ -34,6 +34,7 @@ const getRandomQuestions = (questions, count = 20) => {
 
 
 export default function Quizz() {
+  const { checkAuthError } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const { mode } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -92,6 +93,10 @@ export default function Quizz() {
           },
           body: JSON.stringify({ score }),
         });
+
+        if (checkAuthError(response)) {
+          return;
+        }
 
         const data = await response.json();
 

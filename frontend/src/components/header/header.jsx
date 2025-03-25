@@ -8,7 +8,7 @@ import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
 
 export default function Header() {
-    const { isLoggedIn, logout, user: authUser } = useContext(AuthContext);
+    const { isLoggedIn, logout, user: authUser, checkAuthError } = useContext(AuthContext);
     const [user, setUser] = useState(authUser || null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditingUsername, setIsEditingUsername] = useState(false);
@@ -53,6 +53,10 @@ export default function Header() {
                         body: formData,
                     });
 
+                    if (checkAuthError(response)) {
+                        return;
+                    }
+
                     if (!response.ok) {
                         throw new Error('Erreur lors de la mise à jour du profil');
                     }
@@ -83,10 +87,6 @@ export default function Header() {
         if (newUsername.trim() === '') return;
 
         try {
-            const updatedUser = { ...user, username: newUsername };
-            setUser(updatedUser);
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-
             const token = localStorage.getItem('token');
 
             const response = await fetch(`http://localhost:4000/api/auth/updateUsername/${user._id}`, {
@@ -98,16 +98,27 @@ export default function Header() {
                 body: JSON.stringify({ username: newUsername }),
             });
 
-            if (!response.ok) {
-                throw new Error('Erreur lors de la mise à jour du pseudo');
+            if (checkAuthError(response)) {
+                return;
             }
 
             const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erreur lors de la mise à jour du pseudo');
+            }
+
             console.log('Pseudo mis à jour avec succès :', data);
 
+            const updatedUser = { ...user, username: newUsername };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
             setIsEditingUsername(false);
+            setNewUsername('');
         } catch (error) {
             console.error('Erreur lors de la mise à jour du pseudo :', error);
+            alert(error.message);
         }
     };
 
@@ -187,7 +198,7 @@ export default function Header() {
                                         value={newUsername}
                                         onChange={(e) => setNewUsername(e.target.value)}
                                     />
-                                    <button onClick={handleSaveUsername}>Sauvegarder</button>
+                                    <button onClick={handleSaveUsername} className='Save__button'>Sauvegarder</button>
                                 </>
                             ) : (
                                 <>

@@ -102,6 +102,39 @@
         span {
             font-weight: bold;
             color: #ff7f00;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            border: none;
+            border-bottom: 2px solid #ff7f00;
+            padding: 5px 0;
+            font-size: 16px;
+            background: transparent;
+            outline: none;
+            transition: all 0.3s ease;
+
+            &:focus {
+                border-bottom-color: #ff5500;
+            }
+        }
+
+        button {
+            background: none;
+            color: #ff7f00;
+            border: 1px solid #ff7f00;
+            border-radius: 50px;
+            margin-left: 10px;
+            padding: 4px 10px;
+
+            &:hover {
+                background: rgba(255, 127, 0, 0.1);
+                box-shadow: none;
+            }
+        }
+
+        .Save__button {
+            margin-left: 80px;
         }
     }
 
