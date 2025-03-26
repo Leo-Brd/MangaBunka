@@ -103,39 +103,47 @@ exports.updateUserStats = async (req, res, next) => {
 
 exports.updateProfilePic = async (req, res, next) => {
     try {
-        const userId = req.user._id;
-        const profilePic = req.file?.path;
-
-        if (!profilePic) {
-            return res.status(400).json({ message: "Veuillez fournir une image de profil." });
+        if (!req.file) {
+            return res.status(400).json({ message: "Aucun fichier fourni ou fichier invalide." });
         }
 
-        const user = await User.findById(userId);
+        const userId = req.auth.userId;
+        const profilePicPath = '/images/' + req.file.filename;
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { profilePic: profilePicPath },
+            { new: true }
+        );
+
         if (!user) {
+            fs.unlinkSync(path.join(__dirname, '..', 'images', req.file.filename));
             return res.status(404).json({ message: "Utilisateur non trouvé." });
         }
 
-        if (user.profilePic && user.profilePic !== 'defaultPP.png') {
+        if (user.profilePic && !user.profilePic.includes('defaultPP')) {
             const oldImagePath = path.join(__dirname, '..', user.profilePic);
             if (fs.existsSync(oldImagePath)) {
                 fs.unlinkSync(oldImagePath);
             }
         }
 
-        user.profilePic = profilePic;
-        await user.save();
-
         res.status(200).json({
             message: "Image de profil mise à jour avec succès.",
-            user: {
-                _id: user._id,
-                username: user.username,
-                profilePic: user.profilePic,
-            },
+            profilePic: profilePicPath
         });
+
     } catch (error) {
-        console.error("Erreur lors de la mise à jour de l'image de profil :", error);
-        res.status(500).json({ message: "Une erreur s'est produite lors de la mise à jour de l'image de profil." });
+        console.error("Erreur:", error);
+        
+        if (req.file) {
+            fs.unlinkSync(path.join(__dirname, '..', 'images', req.file.filename));
+        }
+
+        res.status(500).json({ 
+            message: "Erreur lors de la mise à jour",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
 };
 
@@ -148,7 +156,7 @@ exports.updateUsername = async (req, res, next) => {
         }
 
         const updatedUser = await User.findByIdAndUpdate(
-            req.user._id,
+            req.auth.userId,
             { username },
             { new: true }
         );

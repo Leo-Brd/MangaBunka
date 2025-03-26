@@ -21,6 +21,8 @@ module.exports = async (req, res, next) => {
 
         await fs.rename(compressedPath, tempPath);
 
+        req.file.filename = `compressed_${req.file.filename}`;
+
         next();
     } catch (error) {
         console.error('Erreur lors de la compression de l\'image:', error);
