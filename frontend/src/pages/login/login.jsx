@@ -10,12 +10,13 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { login } = useContext(AuthContext);
+    const API_URI = import.meta.env.VITE_API_URI;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         try {
-            const response = await fetch('http://localhost:4000/api/auth/login', {
+            const response = await fetch(`${API_URI}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

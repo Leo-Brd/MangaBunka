@@ -6,13 +6,13 @@ import { faUser, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 export default function Signup() {
-
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const API_URI = import.meta.env.VITE_API_URI;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ export default function Signup() {
         }
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/signup', {
+            const response = await fetch(`${API_URI}/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password })

@@ -5,7 +5,6 @@ import { questionLists, allQuestions } from "../../assets/questions";
 import Leaderboard from '../../components/leaderboard/leaderboard';
 import GameInfo from '../../components/gameInfo/gameInfo';
 import { AuthContext } from '../../context/AuthContext';
-require('dotenv').config();
 
 // The loader component
 const CountdownLoader = ({ onComplete }) => {
@@ -85,9 +84,11 @@ export default function Quizz() {
 
   // To handle the end of a game
   const handleGameOver = async () => {
+    const API_URI = import.meta.env.VITE_API_URI;
+
     if (user) {
       try {
-        const response = await fetch(`${process.env.API_URI}/auth/updateStats/${user._id}`, {
+        const response = await fetch(`${API_URI}/user/updateStats/${user._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
