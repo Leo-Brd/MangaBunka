@@ -6,6 +6,7 @@ import Modal from '../modal/modal';
 import Logo from '../../assets/logo.png';
 import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
+require('dotenv').config();
 
 export default function Header() {
     const { isLoggedIn, logout, user: authUser, checkAuthError } = useContext(AuthContext);
@@ -45,7 +46,7 @@ export default function Header() {
                     const formData = new FormData();
                     formData.append('profilePic', file);
 
-                    const response = await fetch(`http://localhost:4000/api/auth/updateProfilePic/${user._id}`, {
+                    const response = await fetch(`${process.env.API_URI}/auth/updateProfilePic/${user._id}`, {
                         method: 'PUT',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -91,7 +92,7 @@ export default function Header() {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`http://localhost:4000/api/auth/updateUsername/${user._id}`, {
+            const response = await fetch(`${process.env.API_URI}/auth/updateUsername/${user._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

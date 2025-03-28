@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const path = require('path');
+require('dotenv').config();
 
 // We create the express app and connect it to the database
 const app = express();
 
-mongoose.connect('mongodb+srv://LeoBrd:43LHxFbLd4X2f7oy@mon-vieux-grimoire.oltcf.mongodb.net/mangabunka?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 
