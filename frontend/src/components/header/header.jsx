@@ -57,6 +57,8 @@ export default function Header() {
                         return;
                     }
 
+                    console.log(response);
+
                     if (!response.ok) {
                         throw new Error('Erreur lors de la mise à jour du profil');
                     }

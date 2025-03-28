@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import './quizz.scss'
 import { questionLists, allQuestions } from "../../assets/questions";
 import Leaderboard from '../../components/leaderboard/leaderboard';
 import GameInfo from '../../components/gameInfo/gameInfo';
+import { AuthContext } from '../../context/AuthContext';
 
 
 // The loader component

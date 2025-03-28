@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 require('dotenv').config();
 
@@ -102,13 +102,20 @@ exports.updateUserStats = async (req, res, next) => {
 
 
 exports.updateProfilePic = async (req, res, next) => {
+    let oldImagePath = null;
+    
     try {
         if (!req.file) {
-            return res.status(400).json({ message: "Aucun fichier fourni ou fichier invalide." });
+            return res.status(400).json({ message: "Aucun fichier fourni." });
         }
 
         const userId = req.auth.userId;
         const profilePicPath = '/images/' + req.file.filename;
+
+        const currentUser = await User.findById(userId);
+        if (currentUser?.profilePic && !currentUser.profilePic.includes('defaultPP')) {
+            oldImagePath = path.join(__dirname, '..', currentUser.profilePic);
+        }
 
         const user = await User.findByIdAndUpdate(
             userId,
@@ -117,32 +124,42 @@ exports.updateProfilePic = async (req, res, next) => {
         );
 
         if (!user) {
-            fs.unlinkSync(path.join(__dirname, '..', 'images', req.file.filename));
+            await fs.unlink(path.join(__dirname, '..', 'images', req.file.filename))
+                .catch(err => console.error("Erreur suppression nouvelle image:", err));
             return res.status(404).json({ message: "Utilisateur non trouvé." });
         }
 
-        if (user.profilePic && !user.profilePic.includes('defaultPP')) {
-            const oldImagePath = path.join(__dirname, '..', user.profilePic);
-            if (fs.existsSync(oldImagePath)) {
-                fs.unlinkSync(oldImagePath);
+        if (oldImagePath) {
+            try {
+                await fs.access(oldImagePath); 
+                
+                await fs.unlink(oldImagePath); 
+                console.log('✅ Ancienne image supprimée:', path.basename(oldImagePath));
+            } catch (err) {
+                console.error('❌ Échec suppression:', {
+                    fichier: path.basename(oldImagePath),
+                    erreur: err.message
+                });
             }
         }
 
         res.status(200).json({
-            message: "Image de profil mise à jour avec succès.",
+            message: "Photo de profil mise à jour",
             profilePic: profilePicPath
         });
 
     } catch (error) {
-        console.error("Erreur:", error);
+        console.error("Erreur globale:", error);
         
+        // Nettoyage en cas d'erreur
         if (req.file) {
-            fs.unlinkSync(path.join(__dirname, '..', 'images', req.file.filename));
+            await fs.unlink(path.join(__dirname, '..', 'images', req.file.filename))
+                .catch(err => console.error("Erreur nettoyage:", err));
         }
 
         res.status(500).json({ 
-            message: "Erreur lors de la mise à jour",
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+            message: "Erreur serveur",
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };
