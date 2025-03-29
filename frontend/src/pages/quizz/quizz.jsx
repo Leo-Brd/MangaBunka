@@ -85,6 +85,7 @@ export default function Quizz() {
   // To handle the end of a game
   const handleGameOver = async () => {
     const API_URI = import.meta.env.VITE_API_URI;
+    const token = localStorage.getItem('token');
 
     if (user) {
       try {
@@ -92,6 +93,7 @@ export default function Quizz() {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({ score }),
         });

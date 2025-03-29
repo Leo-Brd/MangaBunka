@@ -139,3 +139,4 @@ exports.updateUsername = async (req, res, next) => {
         res.status(500).json({ message: "Une erreur s'est produite lors de la mise à jour du pseudo." });
     }
 };
+
