@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
@@ -6,49 +6,68 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [refreshKey, setRefreshKey] = useState(0);
 
+    const triggerRefresh = () => {
+        setRefreshKey(prev => prev + 1);
+    };
+
+    // Fonction de logout centralisée
+    const logout = useCallback(() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setIsLoggedIn(false);
+        setUser(null);
+        navigate('/login');
+    }, [navigate]);
+
+    // Vérification des erreurs d'authentification
+    const checkAuthError = useCallback((response) => {
+        if (response.status === 401) {
+            logout();
+            return true;
+        }
+        return false;
+    }, [logout]);
+
+    // Initialisation au montage
     useEffect(() => {
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('user');
         
         if (token && userData) {
-            setIsLoggedIn(true);
-            setUser(JSON.parse(userData));
+            try {
+                setUser(JSON.parse(userData));
+                setIsLoggedIn(true);
+            } catch (error) {
+                console.error("Invalid user data", error);
+                logout();
+            }
         }
-    }, []);
+        setIsLoading(false);
+    }, [logout]);
 
-    const checkAuthError = (response) => {
-        if (response.status === 401) {
-            logout();
-            navigate('/login');
-            return true;
-        }
-        return false;
-    };
-
-    const login = (token, userData) => {
+    // Fonction de login
+    const login = useCallback((token, userData) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
-        setIsLoggedIn(true);
         setUser(userData);
+        setIsLoggedIn(true);
         navigate('/');
-    };
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setIsLoggedIn(false);
-        setUser(null);
-    };
+    }, [navigate]);
 
     return (
         <AuthContext.Provider value={{ 
-            isLoggedIn, 
+            isLoggedIn,
             user,
-            login, 
+            isLoading,
+            login,
             logout,
-            checkAuthError
+            checkAuthError,
+            triggerRefresh, 
+            refreshKey
         }}>
             {children}
         </AuthContext.Provider>

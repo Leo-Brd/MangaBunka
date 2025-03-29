@@ -8,16 +8,31 @@ import DefaultPP from '../../assets/defaultPP.png';
 import './header.scss';
 
 export default function Header() {
-    const { isLoggedIn, user: authUser } = useContext(AuthContext);
+    const { isLoggedIn, user: authUser, refreshKey } = useContext(AuthContext);
     const [user, setUser] = useState(authUser || null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const API_URI = import.meta.env.VITE_API_URI;
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-    }, [isLoggedIn]);
+    }, [refreshKey, isLoggedIn]);
+
+    const getProfilePicUrl = () => {
+        if (!user?.profilePic) return DefaultPP;
+        
+        if (user.profilePic.startsWith('data:')) {
+            return user.profilePic;
+        }
+        
+        const baseUrl = user.profilePic.startsWith('http') 
+            ? '' 
+            : API_URI;
+        
+        return `${baseUrl}${user.profilePic}?force=${Date.now()}`;
+    };
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -55,7 +70,7 @@ export default function Header() {
                             {user && (
                                 <div className='Header__user'>
                                     <img 
-                                        src={user.profilePic || DefaultPP} 
+                                        src={getProfilePicUrl()}
                                         alt="Profile image" 
                                         className="Header__profilePic" 
                                     />
