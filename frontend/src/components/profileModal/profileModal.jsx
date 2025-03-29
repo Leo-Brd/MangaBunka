@@ -23,6 +23,11 @@ export default function ProfileModal({ isOpen, onClose }) {
         }
     }, [authUser]);
 
+    const handleLogout = () => {
+        logout();
+        onClose();
+    };
+
     const handleProfilePicChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -185,7 +190,7 @@ export default function ProfileModal({ isOpen, onClose }) {
                         <p><span>Niveau :</span> {user.stats?.level || 1}</p>
                         <p><span>XP :</span> {user.stats?.xp || 0}</p>
                         
-                        <button onClick={logout} className="logout-button">
+                        <button onClick={handleLogout} className="logout-button">
                             Se déconnecter
                         </button>
                     </div>
