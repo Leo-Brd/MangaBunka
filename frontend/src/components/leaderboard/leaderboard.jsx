@@ -1,19 +1,78 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import './leaderboard.scss';
-import Logo from '../../assets/trophee-etoile.png'
-
-const players = [
-    { rank: 1, name: 'Zoro', xp: 15000 },
-    { rank: 2, name: 'Luffy', xp: 14000 },
-    { rank: 3, name: 'Sanji', xp: 13000 },
-    { rank: 4, name: 'Nami', xp: 12500 },
-    { rank: 5, name: 'Robin', xp: 12000 },
-];
+import Logo from '../../assets/trophee-etoile.png';
+import DefaultPP from '../../assets/defaultPP.png';
 
 export default function Leaderboard({ largeVersion = false }) {
+    const [topPlayers, setTopPlayers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const API_URI = import.meta.env.VITE_API_URI;
+
+    useEffect(() => {
+        const fetchTopPlayers = async () => {
+            try {
+                const response = await fetch(`${API_URI}/user/getTopUsersByXP`);
+                
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des joueurs');
+                }
+
+                const data = await response.json();
+                
+                // Transformez les données pour correspondre à votre structure
+                const formattedPlayers = data.data.map((user, index) => ({
+                    rank: index + 1,
+                    name: user.username,
+                    xp: user.stats.xp,
+                    profilePic: user.profilePic
+                }));
+
+                setTopPlayers(formattedPlayers);
+            } catch (err) {
+                console.error("Erreur:", err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTopPlayers();
+    }, [API_URI]);
+
+    const getProfilePicUrl = (profilePic) => {
+            if (!profilePic) return DefaultPP;
+          
+            if (profilePic.startsWith('data:')) {
+              return user.profilePic;
+            }
+          
+            const baseUrl = profilePic.startsWith('http') 
+              ? '' 
+              : API_URI;
+          
+            return `${baseUrl}${profilePic}?force=${Date.now()}`;
+    };
+
+    if (loading) {
+        return (
+            <section id="leaderboard" className={largeVersion ? 'large' : ''}>
+                <div className="loading-message">Chargement du classement...</div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section id="leaderboard" className={largeVersion ? 'large' : ''}>
+                <div className="error-message">Erreur: {error}</div>
+            </section>
+        );
+    }
+
     return (
         <section id="leaderboard" className={largeVersion ? 'large' : ''}>
-
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -33,7 +92,7 @@ export default function Leaderboard({ largeVersion = false }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {players.map((player) => (
+                    {topPlayers.map((player) => (
                         <motion.tr
                             key={player.rank}
                             initial={{ opacity: 0, x: -50 }}
@@ -41,8 +100,15 @@ export default function Leaderboard({ largeVersion = false }) {
                             transition={{ duration: 0.3, delay: player.rank * 0.1 }}
                         >
                             <td>#{player.rank}</td>
-                            <td>{player.name}</td>
-                            {largeVersion && <td>{player.xp} XP</td>}
+                            <td className="player-cell">
+                                <img 
+                                    src={getProfilePicUrl(player.profilePic)} 
+                                    alt={player.name}
+                                    className="player-avatar"
+                                />
+                                {player.name}
+                            </td>
+                            {largeVersion && <td>{player.xp.toLocaleString()} XP</td>}
                         </motion.tr>
                     ))}
                 </tbody>

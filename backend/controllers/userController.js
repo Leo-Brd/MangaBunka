@@ -140,3 +140,25 @@ exports.updateUsername = async (req, res, next) => {
     }
 };
 
+// Get top 5 users by XP
+exports.getTopUsersByXP = async (req, res, next) => {
+    try {
+        const topUsers = await User.find()
+            .sort({ 'stats.xp': -1 })
+            .limit(5)
+
+        res.status(200).json({
+            success: true,
+            message: 'Top 5 utilisateurs récupérés avec succès',
+            data: topUsers
+        });
+
+    } catch (error) {
+        console.error('Erreur lors de la récupération des top utilisateurs:', error);
+        res.status(500).json({ 
+            success: false,
+            message: "Erreur serveur",
+            error: error.message
+        });
+    }
+};
