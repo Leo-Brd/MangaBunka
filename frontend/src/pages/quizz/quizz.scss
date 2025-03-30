@@ -125,9 +125,6 @@
     }
 }
 
-
-// The style for the loader
-
 .loader {
     display: flex;
     align-items: center;
@@ -144,16 +141,11 @@
     }
 }
 
-
 @keyframes fadeInOut {
     0% { opacity: 0; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1); }
     100% { opacity: 0; transform: scale(1.2); }
 }
-
-
-
-// The style for the game over page
 
 .game-over {
     display: flex;
@@ -184,4 +176,77 @@
             background-color: #e36d00;
         }
     }
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 120px);
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    h3 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #FF8C42;
+        font-weight: bold;
+    }
+
+    .progress-bars {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+        width: 100%;
+        max-width: 400px;
+
+        .progress {
+            flex: 1;
+            padding: 12px 0;
+            background: lighten(#FF8C42, 30%);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.4s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: darken(#FF8C42, 20%);
+
+            &.completed {
+                background: #FF8C42;
+                color: white;
+                transform: translateY(-3px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+
+    p {
+        font-size: 1.6rem;
+        color: #666;
+        margin-top: 20px;
+        max-width: 80%;
+        line-height: 1.5;
+    }
+
+    .loader-animation {
+        width: 50px;
+        height: 50px;
+        margin: 20px auto;
+        border: 5px solid lighten(#FF8C42, 30%);
+        border-radius: 50%;
+        border-top-color: #FF8C42;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

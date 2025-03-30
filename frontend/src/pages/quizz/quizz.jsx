@@ -24,19 +24,31 @@ const CountdownLoader = ({ onComplete }) => {
   );
 };
 
+// Fonction améliorée avec retry et délai exponentiel
+const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      if (data.response_code === 0 && data.results) {
+        return data.results;
+      }
+      throw new Error('API returned invalid data');
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+    }
+  }
+};
+
 // Fonction pour récupérer et formater les questions
 const fetchQuestions = async (difficulty) => {
   try {
-    const response = await fetch(
+    const results = await fetchWithRetry(
       `https://opentdb.com/api.php?amount=20&category=31&difficulty=${difficulty}&type=multiple`
     );
-    const data = await response.json();
-    
-    if (data.response_code !== 0 || !data.results) {
-      throw new Error('API returned invalid data');
-    }
-
-    return data.results.map(formatQuestion);
+    return results.map(formatQuestion);
   } catch (error) {
     console.error(`Error fetching ${difficulty} questions:`, error);
     return [];
@@ -84,25 +96,40 @@ export default function Quizz() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(null);
+  const [loadProgress, setLoadProgress] = useState({
+    easy: false,
+    medium: false,
+    hard: false
+  });
 
   // Charger les questions selon le mode
   useEffect(() => {
     const loadQuestions = async () => {
       setLoading(true);
       setError(null);
+      setLoadProgress({ easy: false, medium: false, hard: false });
 
       try {
         let questions = [];
 
         if (mode === "all") {
+          const fetchAndUpdateProgress = async (difficulty) => {
+            const result = await fetchQuestions(difficulty);
+            setLoadProgress(prev => ({ ...prev, [difficulty]: true }));
+            return result;
+          };
+
+          // Lance toutes les requêtes en parallèle avec suivi de progression
           const [easy, medium, hard] = await Promise.all([
-            fetchQuestions('easy'),
-            fetchQuestions('medium'),
-            fetchQuestions('hard')
+            fetchAndUpdateProgress('easy'),
+            fetchAndUpdateProgress('medium'),
+            fetchAndUpdateProgress('hard')
           ]);
+          
           questions = shuffleArray([...easy, ...medium, ...hard]).slice(0, 20);
         } else {
           questions = await fetchQuestions(mode);
+          setLoadProgress({ easy: true, medium: true, hard: true });
         }
 
         if (questions.length === 0) {
@@ -186,17 +213,22 @@ export default function Quizz() {
     setLoading(true);
     setError(null);
     
-    // Recharger les questions
     const loadQuestions = async () => {
       try {
         let questions = [];
         
         if (mode === "all") {
+          const fetchAndUpdateProgress = async (difficulty) => {
+            const result = await fetchQuestions(difficulty);
+            return result;
+          };
+
           const [easy, medium, hard] = await Promise.all([
-            fetchQuestions('easy'),
-            fetchQuestions('medium'),
-            fetchQuestions('hard')
+            fetchAndUpdateProgress('easy'),
+            fetchAndUpdateProgress('medium'),
+            fetchAndUpdateProgress('hard')
           ]);
+          
           questions = shuffleArray([...easy, ...medium, ...hard]).slice(0, 20);
         } else {
           questions = await fetchQuestions(mode);
@@ -216,18 +248,30 @@ export default function Quizz() {
   return (
     <main id="quizz">
       {loading ? (
-        <CountdownLoader onComplete={() => setLoading(false)} />
+        mode === "all" ? (
+          <div className="loading-container">
+            <h3>Chargement des questions...</h3>
+            <div className="progress-bars">
+              <div className={`progress ${loadProgress.easy ? 'completed' : ''}`}>Facile</div>
+              <div className={`progress ${loadProgress.medium ? 'completed' : ''}`}>Moyen</div>
+              <div className={`progress ${loadProgress.hard ? 'completed' : ''}`}>Difficile</div>
+            </div>
+            <p>Veuillez patienter pendant le chargement...</p>
+          </div>
+        ) : (
+          <CountdownLoader onComplete={() => setLoading(false)} />
+        )
       ) : error ? (
         <div className="game-over">
-          <h2>Error</h2>
+          <h2>Erreur</h2>
           <p>{error}</p>
-          <button onClick={restartQuiz}>Try Again</button>
+          <button onClick={restartQuiz}>Réessayer</button>
         </div>
       ) : gameOver ? (
         <div className="game-over">
-          <h2>Quiz Completed!</h2>
-          <p>Your score: {score} / {questions.length}</p>
-          <button onClick={restartQuiz}>Play Again</button>
+          <h2>Quiz Terminé !</h2>
+          <p>Votre score : {score} / {questions.length}</p>
+          <button onClick={restartQuiz}>Rejouer</button>
         </div>
       ) : (
         <div className="quizz-container">
@@ -243,8 +287,7 @@ export default function Quizz() {
                   className={`answer 
                     ${validated && option === questions[currentQuestionIndex].correctAnswer ? 'correct' : ''} 
                     ${validated && option === selectedAnswer && option !== questions[currentQuestionIndex].correctAnswer ? 'incorrect' : ''}
-                    ${selectedAnswer === option ? 'selected' : ''}`
-                  }
+                    ${selectedAnswer === option ? 'selected' : ''}`}
                   onClick={() => handleAnswerSelect(option)}
                   disabled={validated}
                 >
@@ -259,14 +302,14 @@ export default function Quizz() {
                 onClick={handleValidation}
                 disabled={!selectedAnswer}
               >
-                Validate
+                Valider
               </button>
             ) : (
               <button
                 className="next-button"
                 onClick={handleNextQuestion}
               >
-                Next
+                Suivant
               </button>
             )}
           </article>
