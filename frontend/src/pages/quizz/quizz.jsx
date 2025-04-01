@@ -126,7 +126,13 @@ export default function Quizz() {
             fetchAndUpdateProgress('hard')
           ]);
           
-          questions = shuffleArray([...easy, ...medium, ...hard]).slice(0, 20);
+          const allQuestions = [
+            ...easy.map(q => ({ ...q, originalDifficulty: 'easy' })),
+            ...medium.map(q => ({ ...q, originalDifficulty: 'medium' })),
+            ...hard.map(q => ({ ...q, originalDifficulty: 'hard' }))
+          ];
+          
+          questions = shuffleArray(allQuestions).slice(0, 20);
         } else {
           questions = await fetchQuestions(mode);
           setLoadProgress({ easy: true, medium: true, hard: true });
@@ -229,7 +235,13 @@ export default function Quizz() {
             fetchAndUpdateProgress('hard')
           ]);
           
-          questions = shuffleArray([...easy, ...medium, ...hard]).slice(0, 20);
+          const allQuestions = [
+            ...easy.map(q => ({ ...q, originalDifficulty: 'easy' })),
+            ...medium.map(q => ({ ...q, originalDifficulty: 'medium' })),
+            ...hard.map(q => ({ ...q, originalDifficulty: 'hard' }))
+          ];
+          
+          questions = shuffleArray(allQuestions).slice(0, 20);
         } else {
           questions = await fetchQuestions(mode);
         }
@@ -269,7 +281,10 @@ export default function Quizz() {
         <div className="game-over">
           <h2>Erreur</h2>
           <p>{error}</p>
-          <button onClick={restartQuiz}>Réessayer</button>
+          <div className="gameover-buttons">
+            <button onClick={restartQuiz}>Réessayer</button>
+            <button onClick={navigateToMenu} className="menu-button">Retourner au menu</button>
+          </div>
         </div>
       ) : gameOver ? (
         <div className="game-over">
@@ -290,6 +305,7 @@ export default function Quizz() {
           <Leaderboard />
 
           <article className="question-container">
+            <p className="question-difficulty">{questions[currentQuestionIndex].originalDifficulty}</p>
             <h2 className="question">{questions[currentQuestionIndex].question}</h2>
 
             <div className="answers">
