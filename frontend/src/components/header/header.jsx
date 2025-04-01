@@ -11,6 +11,7 @@ export default function Header() {
     const { isLoggedIn, user: authUser, refreshKey } = useContext(AuthContext);
     const [user, setUser] = useState(authUser || null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isHoveringKanas, setIsHoveringKanas] = useState(false);
     const API_URI = import.meta.env.VITE_API_URI;
 
     useEffect(() => {
@@ -37,57 +38,89 @@ export default function Header() {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    const kanas = ['マ', 'ン', 'ガ', 'ブ', 'ン', 'カ'];
 
     return (
         <>
-            <header>
-                <motion.div
-                    className='Header__logo'
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                >
+            <motion.header
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                transition={{ type: 'spring', stiffness: 100 }}
+            >
+                <div className='Header__logo'>
                     <Link to="/">
-                        <img src={Logo} alt="logo" />
+                        <motion.img 
+                            src={Logo} 
+                            alt="logo" 
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ type: 'spring', stiffness: 400 }}
+                        />
                     </Link>
-                </motion.div>
+                </div>
 
-                <div className='Header__kanas'>
-                    <p>マ</p>
-                    <p>ン</p>
-                    <p>ガ</p>
-                    <p>ブ</p>
-                    <p>ン</p>
-                    <p>カ</p>
+                <div 
+                    className='Header__kanas'
+                    onMouseEnter={() => setIsHoveringKanas(true)}
+                    onMouseLeave={() => setIsHoveringKanas(false)}
+                >
+                    {kanas.map((kana, index) => (
+                        <motion.p
+                            key={index}
+                            initial={{ y: 0 }}
+                            animate={{ 
+                                y: isHoveringKanas ? [0, -10, 0] : 0,
+                                rotate: isHoveringKanas ? [0, 5, -5, 0] : 0
+                            }}
+                            transition={{ 
+                                delay: index * 0.1,
+                                duration: 0.6,
+                                repeat: isHoveringKanas ? Infinity : 0,
+                                repeatType: 'reverse'
+                            }}
+                        >
+                            {kana}
+                        </motion.p>
+                    ))}
                 </div>
 
                 <div className='Header__links'>
                     {isLoggedIn ? (
                         <>
-                            <button onClick={openModal}>
+                            <motion.button 
+                                onClick={openModal}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
                                 Mon Profil
-                            </button>
+                            </motion.button>
                             {user && (
-                                <div className='Header__user'>
-                                    <img 
+                                <motion.div 
+                                    className='Header__user'
+                                    whileHover={{ scale: 1.02 }}
+                                    title={user.username}
+                                >
+                                    <motion.img 
                                         src={getProfilePicUrl()}
-                                        alt="Profile image" 
-                                        className="Header__profilePic" 
+                                        alt="Profile" 
+                                        className="Header__profilePic"
+                                        whileHover={{ rotate: 10 }}
+                                        transition={{ type: 'spring' }}
                                     />
-                                    <span className="Header__username">{user.username}</span>
-                                </div>
+                                    <span className="Header__username">
+                                        {user.username}
+                                    </span>
+                                </motion.div>
                             )}
                         </>
                     ) : (
-                        <Link to="/login">
+                        <Link to="/login" className="Header__login-btn">
                             Se connecter
                         </Link>
                     )}
                 </div>
-            </header>
+            </motion.header>
 
             <ProfileModal isOpen={isModalOpen} onClose={closeModal} />
-            
         </>
     );
 }
