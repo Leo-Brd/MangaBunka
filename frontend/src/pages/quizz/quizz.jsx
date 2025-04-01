@@ -245,6 +245,10 @@ export default function Quizz() {
     loadQuestions();
   };
 
+  const navigateToMenu = () => {
+    window.location.href = "/";
+  };
+
   return (
     <main id="quizz">
       {loading ? (
@@ -271,7 +275,15 @@ export default function Quizz() {
         <div className="game-over">
           <h2>Quiz Terminé !</h2>
           <p>Votre score : {score} / {questions.length}</p>
-          <button onClick={restartQuiz}>Rejouer</button>
+          <div className="gameover-buttons">
+            <button onClick={restartQuiz}>Rejouer</button>
+            <button onClick={navigateToMenu} className="menu-button">Retourner au menu</button>
+          </div>
+          <div className="score-stars">
+            {[...Array(Math.min(Math.floor(score/questions.length * 5), 5))].map((_, i) => (
+              <span key={i} className="star">★</span>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="quizz-container">
