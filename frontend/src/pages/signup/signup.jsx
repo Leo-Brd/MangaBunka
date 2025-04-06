@@ -1,24 +1,32 @@
 import './signup.scss';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Signup() {
+    const { login } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     const navigate = useNavigate();
     const API_URI = import.meta.env.VITE_API_URI;
+    const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError(null);
 
         if (password !== confirmPassword) {
             setError('Les mots de passe ne correspondent pas.');
+            setIsLoading(false);
             return;
         }
 
@@ -39,7 +47,64 @@ export default function Signup() {
         } catch (err) {
             console.error(err);
             setError('Erreur réseau. Veuillez réessayer.');
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse) => {
+        setGoogleLoading(true);
+        setError(null);
+        
+        try {
+            // 1. Validation du token reçu
+            if (!credentialResponse?.credential) {
+                throw new Error('Aucun token reçu de Google');
+            }
+    
+            // 2. Envoi au backend
+            const response = await fetch(`${API_URI}/auth/google`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    credential: credentialResponse.credential
+                })
+            });
+    
+            // 3. Gestion de la réponse
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Erreur serveur');
+            }
+    
+            const { token, user } = await response.json();
+    
+            // 4. Stockage sécurisé
+            localStorage.setItem('authToken', token);
+            
+            // 5. Mise à jour du state global (ex: Redux/Context)
+            login(token, user);
+            
+            // 6. Redirection
+            navigate('/');
+    
+        } catch (err) {
+            console.error('Échec connexion Google:', err);
+            setError(err.message || 'Échec de la connexion. Veuillez réessayer.');
+            
+            // Optionnel : Effacer le token en cas d'erreur
+            localStorage.removeItem('authToken');
+        } finally {
+            setGoogleLoading(false);
+        }
+    };
+
+    const handleGoogleError = () => {
+        setError('Échec de la connexion avec Google');
     };
 
     return (
@@ -77,6 +142,7 @@ export default function Signup() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            minLength="6"
                         />
                     </div>
 
@@ -88,18 +154,37 @@ export default function Signup() {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
+                            minLength="6"
                         />
                     </div>
 
                     {error && <p className="error-message">{error}</p>}
 
-                    <button type="submit" className="signup__button">S'inscrire</button>
+                    <button 
+                        type="submit" 
+                        className="signup__button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Chargement...' : 'S\'inscrire'}
+                    </button>
                 </form>
 
+                <div className="signup__divider">
+                    <span>Ou</span>
+                </div>
+
                 <div className="signup__google">
-                    <button className="google__button">
-                        <FontAwesomeIcon icon={faGoogle} /> S'inscrire avec Google
-                    </button>
+                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={handleGoogleError}
+                        useOneTap
+                        auto_select
+                        ux_mode="popup"
+                        text="continue_with"
+                        shape="rectangular"
+                    />
+                    </GoogleOAuthProvider>
                 </div>
 
                 <p className="signup__loginLink">

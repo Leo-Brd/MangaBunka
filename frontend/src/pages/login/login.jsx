@@ -1,7 +1,7 @@
 import './login.scss';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
