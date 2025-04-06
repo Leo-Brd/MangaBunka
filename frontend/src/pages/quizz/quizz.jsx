@@ -82,9 +82,11 @@ const shuffleArray = (array) => {
   return [...array].sort(() => Math.random() - 0.5);
 };
 
+
 export default function Quizz() {
   const { checkAuthError } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [countdownDone, setCountdownDone] = useState(false);
   const { mode } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -96,6 +98,7 @@ export default function Quizz() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [validated, setValidated] = useState(false);
   const [error, setError] = useState(null);
+  const [countdownCompleted, setCountdownCompleted] = useState(false);
   const [loadProgress, setLoadProgress] = useState({
     easy: false,
     medium: false,
@@ -107,10 +110,12 @@ export default function Quizz() {
     const loadQuestions = async () => {
       setLoading(true);
       setError(null);
+      setCountdownDone(false);
       setLoadProgress({ easy: false, medium: false, hard: false });
 
       try {
         let questions = [];
+        const startTime = Date.now();
 
         if (mode === "all") {
           const fetchAndUpdateProgress = async (difficulty) => {
@@ -134,8 +139,11 @@ export default function Quizz() {
           
           questions = shuffleArray(allQuestions).slice(0, 20);
         } else {
-          questions = await fetchQuestions(mode);
-          setLoadProgress({ easy: true, medium: true, hard: true });
+          const questionsPromise = fetchQuestions(mode);
+          const minLoadTime = new Promise(resolve => setTimeout(resolve, 3000));
+          
+          await Promise.all([questionsPromise, minLoadTime]);
+          questions = await questionsPromise;
         }
 
         if (questions.length === 0) {
@@ -143,6 +151,7 @@ export default function Quizz() {
         }
 
         setQuestions(questions);
+        setCountdownDone(true);
       } catch (error) {
         console.error("Failed to load questions:", error);
         setError("Failed to load questions. Please try again.");
@@ -274,8 +283,12 @@ export default function Quizz() {
             </div>
             <p>Veuillez patienter pendant le chargement...</p>
           </div>
+        ) : !countdownDone ? (
+          <CountdownLoader onComplete={() => setCountdownDone(true)} />
         ) : (
-          <CountdownLoader onComplete={() => setLoading(false)} />
+          <div className="loading-container">
+            <p>Préparation du quiz...</p>
+          </div>
         )
       ) : error ? (
         <div className="game-over">
@@ -290,14 +303,14 @@ export default function Quizz() {
         <div className="game-over">
           <h2>Quiz Terminé !</h2>
           <p>Votre score : {score} / {questions.length}</p>
-          <div className="gameover-buttons">
-            <button onClick={restartQuiz}>Rejouer</button>
-            <button onClick={navigateToMenu} className="menu-button">Retourner au menu</button>
-          </div>
           <div className="score-stars">
             {[...Array(Math.min(Math.floor(score/questions.length * 5), 5))].map((_, i) => (
               <span key={i} className="star">★</span>
             ))}
+          </div>
+          <div className="gameover-buttons">
+            <button onClick={restartQuiz}>Rejouer</button>
+            <button onClick={navigateToMenu} className="menu-button">Retourner au menu</button>
           </div>
         </div>
       ) : (
