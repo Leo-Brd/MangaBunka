@@ -63,14 +63,24 @@ exports.login = async (req, res, next) => {
 // Google Login function (version avec token JWT dans la réponse)
 exports.googleLogin = async (req, res) => {
     try {
-        // 1. Vérification du token Google
+        // Vérification du token Google
         const ticket = await client.verifyIdToken({
             idToken: req.body.credential,
             audience: process.env.GOOGLE_CLIENT_ID
         });
         const { email, name, picture, sub: googleId } = ticket.getPayload();
 
-        // 2. Recherche/Création de l'utilisateur
+        // Vérification d'un compte déjà existant avec le même email
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser && existingUser.authMethod !== 'google') {
+            return res.status(409).json({
+                success: false,
+                message: 'Un compte existe déjà avec cette adresse email. Veuillez vous connecter avec votre mot de passe.'
+            });
+        }
+
+        // Recherche/Création de l'utilisateur
         let user = await User.findOneAndUpdate(
             { $or: [{ email }, { googleId }] },
             {
@@ -105,10 +115,10 @@ exports.googleLogin = async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        // 4. Réponse avec token dans le body (pour localStorage)
+        // 4. Réponse avec token dans le body
         res.status(200).json({
             success: true,
-            token, // À stocker dans localStorage
+            token,
             user: {
                 id: user._id,
                 username: user.username,
