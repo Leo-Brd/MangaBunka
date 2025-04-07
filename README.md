@@ -56,6 +56,8 @@ Créer un fichier **.env** dans le dossier **backend** et y ajouter :
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 PORT=4000
+FRONTEND_URI=your_frontend_URI
+GOOGLE_CLIENT_ID=your_client_id_for_google_auth
 ```
 
 ### 4️⃣ Lancer le projet
