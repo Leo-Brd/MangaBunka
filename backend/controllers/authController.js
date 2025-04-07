@@ -60,12 +60,12 @@ exports.login = async (req, res, next) => {
     }
 };
 
-// Google Login function
+// Google Login function (version avec token JWT dans la réponse)
 exports.googleLogin = async (req, res) => {
     try {
-        // 1. Vérification du token Google (obligatoire en production)
+        // 1. Vérification du token Google
         const ticket = await client.verifyIdToken({
-            idToken: req.body.credential, // Le token JWT brut
+            idToken: req.body.credential,
             audience: process.env.GOOGLE_CLIENT_ID
         });
         const { email, name, picture, sub: googleId } = ticket.getPayload();
@@ -74,7 +74,7 @@ exports.googleLogin = async (req, res) => {
         let user = await User.findOneAndUpdate(
             { $or: [{ email }, { googleId }] },
             {
-                $setOnInsert: { // Seulement à la création
+                $setOnInsert: {
                     username: name || email.split('@')[0],
                     email,
                     profilePic: picture || '',
@@ -83,7 +83,7 @@ exports.googleLogin = async (req, res) => {
                     isVerified: true,
                     stats: { gamesPlayed: 0, averageScore: 0, level: 1, xp: 0 }
                 },
-                $set: { // Mise à jour dans tous les cas
+                $set: {
                     lastLogin: new Date()
                 }
             },
@@ -96,23 +96,25 @@ exports.googleLogin = async (req, res) => {
 
         // 3. Génération du JWT
         const token = jwt.sign(
-            { userId: user._id, authMethod: 'google' },
+            { 
+                userId: user._id, 
+                authMethod: 'google',
+                email: user.email
+            },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        // 4. Réponse avec cookie HTTPOnly (plus sécurisé)
-        res.cookie('authToken', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000 // 24h
-        }).json({
+        // 4. Réponse avec token dans le body (pour localStorage)
+        res.status(200).json({
+            success: true,
+            token, // À stocker dans localStorage
             user: {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                profilePic: user.profilePic
+                profilePic: user.profilePic,
+                stats: user.stats
             }
         });
 
@@ -120,7 +122,8 @@ exports.googleLogin = async (req, res) => {
         console.error('Google login error:', error);
         res.status(401).json({ 
             success: false,
-            message: 'Échec de l\'authentification Google'
+            message: 'Échec de l\'authentification Google',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
 };

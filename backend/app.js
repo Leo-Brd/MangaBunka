@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_URI,
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

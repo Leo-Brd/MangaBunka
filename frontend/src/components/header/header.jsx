@@ -23,16 +23,14 @@ export default function Header() {
 
     const getProfilePicUrl = () => {
         if (!user?.profilePic) return DefaultPP;
+
+        console.log(user.profilePic);
         
-        if (user.profilePic.startsWith('data:')) {
+        if (user.profilePic.startsWith('data:') || user.profilePic.startsWith('http')) {
             return user.profilePic;
-        }
+        }        
         
-        const baseUrl = user.profilePic.startsWith('http') 
-            ? '' 
-            : API_URI;
-        
-        return `${baseUrl}${user.profilePic}?force=${Date.now()}`;
+        return `${API_URI}${user.profilePic}?force=${Date.now()}`;
     };
 
     const openModal = () => setIsModalOpen(true);
